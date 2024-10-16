@@ -149,7 +149,7 @@ int prevodyCasu(){
 }
 int main(){ 
     
-    prevodyCasu();
+    prevodDelky();
 
     return 0;
 }
