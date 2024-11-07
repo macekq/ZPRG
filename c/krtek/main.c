@@ -20,17 +20,25 @@ void zobrazitPole(int num){
         printf("\n");
     }
 }
-void vytvoritMapu(int x, int y){
+void vytvoritMapu(int x, int y, int krtek){
     
-    int counter = 1;
+    int counter = 1; krtekCounter = 1
     
     for(int Y = 0; Y<y*5; Y++){
         for(int X = 0; X<x*5; X++){
             
-            if(Y%5 == 4 && X%5 == 2) printf("%d ", counter);
-            else if(pole[Y%5][X%5] == 0) printf("- ");
+            if(Y%5 == 2 && X%5 == 2 && krtek != 0){
+                printf("%d ", krtekCounter);
+                krtekCounter++;
+            }
+            else if(Y%5 == 4 && X%5 == 2){
+                printf("%d ", counter);
+                counter++;
+
+            }else if(pole[Y%5][X%5] == 0) printf("- ");
             else printf("%c ", pole[Y%5][X%5]);
         }
+        printf("\n");
     }
 }
 int main(){
@@ -38,7 +46,7 @@ int main(){
     srand(time(NULL));
     int krtek = rand()%10;
 
-    vytvoritMapu(3,2);
+    vytvoritMapu(3,2,2);
 
     return 0;
 }
