@@ -1,15 +1,9 @@
 #include <stdio.h>
 #include <Windows.h>
 #include <time.h>
+#include <conio.h>
 
-const int pole[5][5] = {
-    {0,0,0,0,0},
-    {0,219,219,219,0},
-    {0,219,0,219,0},
-    {0,219,219,219,0},
-    {0,0,0,0,0}
-};
-void zobrazitPole(int num){
+void zobrazitPole(int num){gcc 
     for(int y = 0; y<5; y++){
         for(int x = 0; x<5; x++){
             
@@ -22,13 +16,14 @@ void zobrazitPole(int num){
 }
 void vytvoritMapu(int x, int y, int krtek){
     
-    int counter = 1; krtekCounter = 1
+    int counter = 1, krtekCounter = 1;
     
     for(int Y = 0; Y<y*5; Y++){
         for(int X = 0; X<x*5; X++){
             
             if(Y%5 == 2 && X%5 == 2 && krtek != 0){
-                printf("%d ", krtekCounter);
+                if(krtekCounter == krtek) printf("# ");
+                else printf("- ");
                 krtekCounter++;
             }
             else if(Y%5 == 4 && X%5 == 2){
@@ -41,12 +36,30 @@ void vytvoritMapu(int x, int y, int krtek){
         printf("\n");
     }
 }
+
 int main(){
 
     srand(time(NULL));
-    int krtek = rand()%10;
+    
+    // printf("vlozte velikost pole (na vysko a na sirku) -> ");
+    // int velikostPole = getch()-48;
+    // system("cls");
 
-    vytvoritMapu(3,2,2);
+    while(1){
+        int krtek = rand()%9 + 1;
 
+        clock_t start = clock();
+        vytvoritMapu(3,3,krtek);
+
+        int loc;
+        do{
+            loc = getch();
+            if(loc-48!=krtek) printf("\n\n* tesne vedle *");
+        }while(loc - 48 != krtek);
+
+        system("cls");
+        double reakce = (double)(clock() - start);
+        printf("\nreakce: %.2fms\n", reakce);
+    }
     return 0;
 }
