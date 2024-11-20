@@ -3,7 +3,7 @@
 #include <time.h>
 #include <conio.h>
 
-void zobrazitPole(int num){gcc 
+void zobrazitPole(int num){
     for(int y = 0; y<5; y++){
         for(int x = 0; x<5; x++){
             
