@@ -62,7 +62,7 @@ int main(){
     }
 
     int vyherce;
-    for(int i = 0; i<10; i++){git
+    for(int i = 0; i<10; i++){
         if(KONE[i][0] >= 80) vyherce = i;
     }
 

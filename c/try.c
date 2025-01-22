@@ -1,26 +1,17 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include <Windows.h>
 
+void setTextColor(int color) {
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hConsole, color);
+}
 int main() {
-    
-    float nums[4][2] = {
-        {0,0},
-        {0,0},
-        {0,0},
-        {0,0}
-    };
+   
+    for(int i = 0; i<15; i++){
 
-    printf("size %lu", sizeof(nums));
-
-    int size = sizeof(nums);
-    printf("\nint size:%d", size);
-
-    float **ptr = nums;
-
-    printf("\n\nsize %lu", sizeof(ptr));
-
-    size = sizeof(ptr);
-    printf("\nint size:%d", size);
+        setTextColor(i);
+        printf("zab se pizdo <3 - %d\n", i);
+    }
 
     return 0;
 }
