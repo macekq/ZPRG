@@ -4,7 +4,7 @@
 #include <conio.h>
 
 const char abc[] = "abcdefgh";
-int *removedPieces = NULL;
+int removedPieces[32] = {0};
 int removedPiecesSize;
 
 int POLE[8][8] = {
@@ -48,22 +48,17 @@ void drawBoard(){
 
     printf("\n\n1 -> pawn\n2 -> knight\n3 -> bishop\n4 -> rook\n5 -> qween\n6 -> king");
 }
-void push(int* array, int* size, int value) {
+void push(int value) {
 
-    *size += 1;
-    *array = realloc(*array, *size * sizeof(int));
-    if (*array == NULL) {
-        perror("push failed");
-        exit(EXIT_FAILURE);
-    }
-
-    (*array)[*size - 1] = value;
+    removedPieces[removedPiecesSize] = value;
+    removedPiecesSize++;
 }
 int charNaSouradnice(char AazH){
 
     for(int i = 0; i<8; i++){
         if(AazH == abc[i]) return i;
     }
+    return 0;
 }
 int validInput(char arr[3]){
 
@@ -74,6 +69,15 @@ int validInput(char arr[3]){
         if(i+48 == arr[1]) valid[1] = 1;
     }
     return valid[0] && valid[1];
+}
+void clearRect(int x, int y, int width, int height){
+
+    for(int j = 0; j<height; j++){
+        moveCursor(x, y+j);
+        for(int i = 0; i<width; i++){
+            printf(" ");
+        }
+    }
 }
 void drawPieces(){
 
@@ -116,7 +120,7 @@ void movePiece(int currX, int currY, int destX, int destY){
     }
 
     if(POLE[destY][destX] == 0){
-        push(removedPieces, removedPiecesSize, POLE[destY][destX]);
+        push(POLE[destY][destX]);
     }
     POLE[destY][destX] = piece;
 
@@ -126,7 +130,9 @@ void movePiece(int currX, int currY, int destX, int destY){
 int main(){
 
     drawBoard();
-    drawPieces(POLE);
+    system("cls");
+    drawBoard();
+    drawPieces();
 
     char souradnice[2][3];
     int tah = 1;
