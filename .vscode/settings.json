@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "windows.h": "c"
+        "*.wmls": "javascriptlite",
+        "windows.h": "c",
+        "conio.h": "c"
     }
 }

@@ -1,15 +1,25 @@
 #include <stdio.h>
 
-#define MLUV printf
-#define CISLO int
-#define ROVNO =
-#define ZACATEK (
-#define KONEC )
-#define HOTOVO return
+void moveCursor(int col, int row) {
+    printf("\033[%d;%dH", row, col);
+}
+int main(){
 
-CISLO main ZACATEK KONEC{
+    int counter = 0;
+    for(int x = 0; x<24; x++){
+        for(int y = 0; y<24; y++){
 
-    MLUV ZACATEK "kys" KONEC;
+            moveCursor(x*10+3, y);
+            printf("%c -> %d", counter, counter);
 
-    HOTOVO 0;
+            counter++;
+
+            if(counter>255) break;
+        }
+        if(counter>255) break;
+    }
+
+    moveCursor(0, 25);
+
+    return 0;
 }
