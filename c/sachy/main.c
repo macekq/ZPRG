@@ -4,6 +4,7 @@
 #include <conio.h>
 
 const char abc[] = "abcdefgh";
+const int revInt[] = {7,6,5,4,3,2,1,0};
 int removedPieces[32] = {0};
 int removedPiecesSize;
 
@@ -60,13 +61,21 @@ int charNaSouradnice(char AazH){
     }
     return 0;
 }
-int validInput(char arr[3]){
+int validInput(char arr[3], int tah){
 
-    int valid[2] = {0,0};
+    int valid[2] = {0,0}, souradnice[2] = {charNaSouradnice(arr[0]), revInt[arr[1]-49]};
+    moveCursor(0,50);
+    printf("%d - %d", souradnice[0], souradnice[1]);
     for(int i = 0; i<8; i++){
 
         if(abc[i] == arr[0]) valid[0] = 1;
         if(i+48 == arr[1]) valid[1] = 1;
+
+        if(tah){
+            if(POLE[souradnice[1]][souradnice[0]] >= 7 || POLE[souradnice[1]][souradnice[0]] == 0) return 0;
+        }else{
+            if(POLE[souradnice[1]][souradnice[0]] < 7) return 0;
+        }
     }
     return valid[0] && valid[1];
 }
@@ -139,35 +148,61 @@ int main(){
     
     while(1){
 
+        clearRect(0, 23, 100, 5);
+
         if(tah){
-
             setTextColor(8);
-            moveCursor(0,24);
+            moveCursor(0,23);
             printf("bily na tahu");
-            moveCursor(0,25);
-            printf("vlozte souradnici figurky s kterou chcete pohnout - ");
-            setTextColor(7);
-            scanf("%2s", souradnice[0]);
+            do{
+                clearRect(0,25,100,1);
+                moveCursor(0,25);
+                setTextColor(8);
+                printf("vlozte souradnici figurky s kterou chcete pohnout - ");
+                setTextColor(7);
+                scanf("%2s", souradnice[0]);
             
-            moveCursor(0,25);
-            setTextColor(8);            
-            printf("vlozte souradnice na ktere chcete figurku presunout - ");
-            setTextColor(7);
-            scanf("%2s", souradnice[1]);
+            }while(!validInput(souradnice[0], 1));
+            do{
+                clearRect(0,25,100,1);
+                moveCursor(0,25);
+                setTextColor(8);            
+                printf("vlozte souradnice na ktere chcete figurku presunout - ");
+                setTextColor(7);
+                scanf("%2s", souradnice[1]);
 
-            souradnice[0][0] = charNaSouradnice(souradnice[0][0]);
-            souradnice[0][1] -= 49;
-            souradnice[1][0] = charNaSouradnice(souradnice[1][0]);
-            souradnice[1][1] -= 49;
+            }while(0);
+            
+            tah = 0;
+        }else{
+            setTextColor(8);
+            moveCursor(0,23);
+            printf("cerny na tahu");
+            do{
+                clearRect(0,25,100,1);
+                setTextColor(8);
+                moveCursor(0,25);
+                printf("vlozte souradnici figurky s kterou chcete pohnout - ");
+                setTextColor(7);
+                scanf("%2s", souradnice[0]);
 
-            moveCursor(0,30);
-            printf("%d - %d\n%d - %d", souradnice[0][0], souradnice[0][1], souradnice[1][0], souradnice[1][1]);
-
-            movePiece(souradnice[0][0], souradnice[0][1], souradnice[1][0], souradnice[1][1]);
-
-        }else{  
-
+            }while(!validInput(souradnice[0], 0));
+            do{                
+                clearRect(0,25,100,1);
+                moveCursor(0,25);
+                setTextColor(8);            
+                printf("vlozte souradnice na ktere chcete figurku presunout - ");
+                setTextColor(7);
+                scanf("%2s", souradnice[1]);
+            
+            }while(0);
+            
+            tah = 1;
         }
+        souradnice[0][0] = charNaSouradnice(souradnice[0][0]);
+        souradnice[0][1] -= 49;
+        souradnice[1][0] = charNaSouradnice(souradnice[1][0]);
+        souradnice[1][1] -= 49;
     }
     
     return 0;
