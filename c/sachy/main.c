@@ -110,7 +110,7 @@ void drawPieces(){
 
     moveCursor(0,24);
 }
-void movePiece(int currX, int currY, int destX, int destY){
+void movePiece(int currX, int currY, int destX, int destY, int tah){
 
     int piece;
     piece = POLE[currY][currX];
@@ -133,6 +133,7 @@ void movePiece(int currX, int currY, int destX, int destY){
     }
     POLE[destY][destX] = piece;
 
+    setTextColor(tah ? 12 : 2);
     moveCursor((destX+2)*2, destY+3);
     printf("%d", (piece > 6 ? piece-6 : piece));
 }
@@ -200,9 +201,11 @@ int main(){
             tah = 1;
         }
         souradnice[0][0] = charNaSouradnice(souradnice[0][0]);
-        souradnice[0][1] -= 49;
+        souradnice[0][1] = revInt[souradnice[0][1]-49];
         souradnice[1][0] = charNaSouradnice(souradnice[1][0]);
-        souradnice[1][1] -= 49;
+        souradnice[1][1] = revInt[souradnice[1][1]-49];
+
+        movePiece(souradnice[0][0], souradnice[0][1], souradnice[1][0], souradnice[1][1], tah);
     }
     
     return 0;
