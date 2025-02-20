@@ -3,6 +3,8 @@
 #include <Windows.h>
 #include <conio.h>
 
+//dodelat legal pohyby figurek
+
 const char abc[] = "abcdefgh";
 const int revInt[] = {7,6,5,4,3,2,1,0};
 int removedPieces[32] = {0};
@@ -61,15 +63,18 @@ int charNaSouradnice(char AazH){
     }
     return 0;
 }
-int validInput(char arr[3], int tah){
+int validStart(char pos[3], int tah){
 
-    int valid[2] = {0,0}, souradnice[2] = {charNaSouradnice(arr[0]), revInt[arr[1]-49]};
+    int valid[2] = {0,0}, souradnice[2] = {charNaSouradnice(pos[0]), revInt[pos[1]-49]};
     moveCursor(0,50);
     printf("%d - %d", souradnice[0], souradnice[1]);
+    moveCursor(0,48);
+    printf("%c - %c", pos[0], pos[1]);
+
     for(int i = 0; i<8; i++){
 
-        if(abc[i] == arr[0]) valid[0] = 1;
-        if(i+48 == arr[1]) valid[1] = 1;
+        if(abc[i] == pos[0]) valid[0] = 1;
+        if(i+48 == pos[1]) valid[1] = 1;
 
         if(tah){
             if(POLE[souradnice[1]][souradnice[0]] >= 7 || POLE[souradnice[1]][souradnice[0]] == 0) return 0;
@@ -77,7 +82,58 @@ int validInput(char arr[3], int tah){
             if(POLE[souradnice[1]][souradnice[0]] < 7) return 0;
         }
     }
+    moveCursor(0,47);
+    printf("%d - %d <3", valid[0], valid[1]);
+
     return valid[0] && valid[1];
+}
+int validDest(char souradnice[2][3], int tah){
+    if(souradnice[1][0] < 8 && souradnice[1][0] >= 0) return 0;
+    
+    if(tah && POLE[souradnice[1][1]][souradnice[1][0]] != 0){
+    
+        if(POLE[souradnice[1][1]][souradnice[1][0]] < 7) return 0;
+    }else{
+    
+        if(POLE[souradnice[1][1]][souradnice[1][0]] >= 7) return 0;
+    }
+
+    switch(POLE[souradnice[0][1]][souradnice[0][0]] - (POLE[souradnice[0][1]][souradnice[0][0]] > 7 ? 6 : 0)){
+
+        case 1:{
+            if(souradnice[0][1] == 6 && (souradnice[1][1] == 4 || souradnice[1][1] == 5) && souradnice[0][0] == souradnice[1][0]) return 1;
+            else{
+
+                if(souradnice[0][0] == souradnice[1][0] && souradnice[0][1]+1 == souradnice[1][1] && POLE[souradnice[1][1]][souradnice[1][0]] == 0) return 1;
+                if((souradnice[0][0]+1 == souradnice[1][0] || souradnice[0][0]-1 == souradnice[1][0]) && souradnice[0][1]+1 == souradnice[1][1] && POLE[souradnice[1][1]][souradnice[1][0]] > 6) return 1;
+
+            }
+            return 0;
+        }
+        case 2:{
+            int legalKnightMoves[8][2] = {
+                {-1,2},{1,2},{2,1},{2,-1},{1,-2},{-1,-2},{-2,-1},{-2,1}
+            };
+            for(int i = 0; i<8; i++){
+                if(souradnice[0][0] + legalKnightMoves[i][0] == souradnice[1][0] && souradnice[0][1] + legalKnightMoves[i][1] == souradnice[1][1]) return 1;
+            }
+            return 0;
+        }
+        case 3:{
+            for(int i = 1; i<8; i++){
+                
+                if(
+                    souradnice[0][0] + i == souradnice[1][0] && souradnice[0][1] + i == souradnice[1][1] ||
+                    souradnice[0][0] + i == souradnice[1][0] && souradnice[0][1] - i == souradnice[1][1] ||
+                    souradnice[0][0] - i == souradnice[1][0] && souradnice[0][1] + i == souradnice[1][1] ||
+                    souradnice[0][0] - i == souradnice[1][0] && souradnice[0][1] - i == souradnice[1][1]
+                )
+            }
+        }
+        default:{
+            return 0;
+        }
+    }
 }
 void clearRect(int x, int y, int width, int height){
 
@@ -163,7 +219,7 @@ int main(){
                 setTextColor(7);
                 scanf("%2s", souradnice[0]);
             
-            }while(!validInput(souradnice[0], 1));
+            }while(!validStart(souradnice[0], 1));
             do{
                 clearRect(0,25,100,1);
                 moveCursor(0,25);
@@ -187,7 +243,7 @@ int main(){
                 setTextColor(7);
                 scanf("%2s", souradnice[0]);
 
-            }while(!validInput(souradnice[0], 0));
+            }while(!validStart(souradnice[0], 0));
             do{                
                 clearRect(0,25,100,1);
                 moveCursor(0,25);
