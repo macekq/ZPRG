@@ -1,17 +1,11 @@
 #include <stdio.h>
-#include <Windows.h>
 
-void setTextColor(int color) {
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleTextAttribute(hConsole, color);
-}
-int main() {
-   
-    for(int i = 0; i<15; i++){
+int main(){
 
-        setTextColor(i);
-        printf("zab se pizdo <3 - %d\n", i);
-    }
+    int arr1 = {1,1};
+    int arr2 = {2,0};
 
-    return 0;
+    if(arr1 == arr2) printf("true");
+
+    return 0; 
 }
