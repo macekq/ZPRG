@@ -37,15 +37,34 @@ int main(){
         POLE[i] = (int *)malloc(sizeof(int) * size);
     }
 
+    //vytisknout 2d pole a vytvorit pary
+    int **par1 = (int **)malloc(sizeof(int *) * (size*size/2));
+    int **par2 = (int **)malloc(sizeof(int *) * (size*size/2));
+    for(int i = 0; i<size*size/2; i++){
+        par1[i] = (int *)malloc(sizeof(int) * 2);
+        par2[i] = (int *)malloc(sizeof(int) * 2);
+    }
+    int par1counter, par2counter;
+    int charList = (int *)malloc(sizeof(int) * (size*size/2));
+
+    int counter;
     for(int y = 0; y<size; y++){
         for(int x = 0; x<size; x++){
 
+            if(rand()%2){
+                par1[par1counter][0] = x;
+                par1[par1counter][1] = y;
+                par1counter++;
+            }else{
+                par2[par2counter][0] = x;
+                par2[par2counter][1] = y;
+                par2counter++;
+            }
+            counter++;
             printf(" %c", 254);
         }
         printf("\n");
     }
-
-    
 
     return 0;
 }
