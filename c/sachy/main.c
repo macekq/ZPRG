@@ -121,13 +121,7 @@ int validDest(char souradnice[2][3], int tah){
         }
         case 3:{
             for(int i = 1; i<8; i++){
-                
-                if(
-                    souradnice[0][0] + i == souradnice[1][0] && souradnice[0][1] + i == souradnice[1][1] ||
-                    souradnice[0][0] + i == souradnice[1][0] && souradnice[0][1] - i == souradnice[1][1] ||
-                    souradnice[0][0] - i == souradnice[1][0] && souradnice[0][1] + i == souradnice[1][1] ||
-                    souradnice[0][0] - i == souradnice[1][0] && souradnice[0][1] - i == souradnice[1][1]
-                )
+
             }
         }
         default:{
