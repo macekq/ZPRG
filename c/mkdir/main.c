@@ -5,7 +5,7 @@
 int main() {
     
     //vytvorit slozku
-    const char *path = "C:\\Users\\l.macura.st\\Desktop\\ZPRG\\c\\mkdir";
+    const char *path = "C:\\Users\\lukma\\OneDrive\\Documents\\GitHub\\ZPRG\\c\\mkdir"; //absolutni cesta
 
     if(_chdir(path) == 0){
         printf("true");
@@ -21,17 +21,31 @@ int main() {
     char TYDEN[5][10] = {
         "pondeli", "utery", "streda", "ctvrtek", "patek"
     };
+    char PREDMETY[5][32] = {
+        "mech-mech-mech-fyz-anj-cej-mat",
+        "zda-zda-mat-0-tev-tev-zwa-zwa",
+        "kap-kap-cej-anj-zprgc-zprgc-mat",
+        "zwa-zwa-zst-tvp-zstc-zstc-anj",
+        "cej-zprg-mat-ops-ops-dej-fyz"
+    };
     for(int i = 0; i<5; i++){
         char myPath[255];
-        strcpy(myPath, path);
 
-        printf("%s\n", TYDEN[i]);
+        snprintf(myPath, sizeof(myPath), "%s\\%s", path, "tyden");
 
-    	printf(strcat(myPath, "\\"));
-        // _chdir(strcat(path, "\\", fName));
-        
-        // _mkdir(TYDEN[i]);
+        printf("\n%s", myPath);
 
+        _chdir(myPath);
+        _mkdir(TYDEN[i]);
+    
+        snprintf(myPath, sizeof(myPath), "%s\\%s", myPath, TYDEN[i]);
+        _chdir(myPath);
+
+        char *fileName = TYDEN[i];
+        FILE *txt = fopen(fileName, "w");
+        fprintf(txt, PREDMETY[i]);
+
+        fclose(txt);
     }
 
 
