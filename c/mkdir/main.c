@@ -5,7 +5,7 @@
 int main() {
     
     //vytvorit slozku
-    const char *path = "C:\\Users\\l.macura.st\\Documents\\ZPRG\\c\\mkdir"; //absolutni cesta
+    const char *path = "/home/macura/Documents/GitHub/ZPRG/c/mkdir"; //absolutni cesta
 
     if(_chdir(path) == 0){
         printf("true");
