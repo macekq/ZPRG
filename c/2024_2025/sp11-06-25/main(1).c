@@ -4,7 +4,7 @@
 #include <Windows.h>
 #include <conio.h>
 
-const char *path = "C:\\Users\\l.macura.st\\Documents\\GitHub\\ZPRG\\c\\SPmacura11-06-25";
+const char *path = "C:\\Users\\l.macura.st\\Documents\\GitHub\\ZPRG\\c\\2024_2025\\sp11-06-25";
 
 typedef struct{
     int opravneni; char username[255]; char heslo[33];
@@ -75,7 +75,7 @@ void registrace(char *fileName){
         };
     }
 }
-int login(char *fileName){
+void login(char *fileName){
     system("cls");
 
     FILE *soubor = fopen(fileName, "r");

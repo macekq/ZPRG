@@ -4,7 +4,7 @@
 #include <Windows.h>
 #include <conio.h>
 
-const char *path = "C:\\Users\\l.macura.st\\Documents\\GitHub\\ZPRG\\c\\SPmacura11-06-25";
+const char *path = "C:\\Users\\l.macura.st\\Documents\\GitHub\\ZPRG\\c\\2024_2025\\sp11-06-25";
 
 typedef struct{
     int opravneni; char username[255]; char heslo[33];
@@ -75,7 +75,7 @@ void registrace(char *fileName){
         };
     }
 }
-int login(char *fileName){
+void login(char *fileName){
     system("cls");
 
     FILE *soubor = fopen(fileName, "r");
@@ -88,36 +88,11 @@ int login(char *fileName){
         // printf("%s\n%d\n%c", buffer, strlen(buffer)-1, buffer[0]);
         if(buffer[strlen(buffer)-2] != '+') break;
     }
-
-    char **USERS = (char **)malloc(sizeof(char *) * counter);
-    for(int i = 0; i<counter; i++){
-        USERS[i] = (char *)malloc(sizeof(char) * 255);
-    }
-    for(int i = 0; i<counter; i++){
-        fgets(buffer, sizeof(buffer),  soubor);
+    while(1){
+        counter++;
+        fgets(buffer, sizeof(buffer), soubor);
+        printf("%s\n%d\n%c", buffer, strlen(buffer)-1, buffer[0]);
         if(buffer[strlen(buffer)-2] != '+') break;
-    
-        int hashIndex[3] = {0,1,1};
-        do{
-            hashIndex[0]++;
-        }while(buffer[hashIndex[0]] != '#');
-
-        hashIndex[1] += hashIndex[0];
-        do{
-            hashIndex[1]++;
-        }while(buffer[hashIndex[1]] != '#');
-
-        hashIndex[2] += hashIndex[1];
-        do{
-            hashIndex[2]++;
-        }while(buffer[hashIndex[2]] != '#');
-
-        strncpy(USERS[i][0], &buffer[hashIndex[0]], hashIndex[1]-hashIndex[0]);
-        USERS[i][0][hashIndex[1]-hashIndex[0]] = '\n';
-        
-        system("cls");
-        printf("%s  - jmeno", USERS[i][0]);
-        getch();
     }
 
 }

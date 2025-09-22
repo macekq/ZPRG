@@ -2,7 +2,7 @@
 
 int main(){
 
-    const char *oznameni = "vcera 23.4.2025 prileteli mimozemske bytosti do ghetta zvaneho 'privoz'\n\
+    const char *oznameni = "vcera 23.4.2024_2025 prileteli mimozemske bytosti do ghetta zvaneho 'privoz'\n\
     ackoliv tyto bytosti nedali najevo znamky nasili nebo nebezpecnosti, obyvatele privozu nevahali a\
     rozebrali mimozemske plavidla a prodali je do kovosrotu\nale nemusite se bat o svuj zivot(pokud nebydlite v privoze)\
     vypada to ze mimozemske bytosti neopusti privoz nazivu";
