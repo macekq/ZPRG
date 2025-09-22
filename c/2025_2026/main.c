@@ -17,6 +17,9 @@ void setTextColor(int color) {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(hConsole, color);
 }
+void moveCursor(int x, int y) {
+    printf("\033[%d;%dH", y, x);
+}
 
 void pridatOsobu(){
 
@@ -94,15 +97,31 @@ void pridatApsenci(){
 }
 void vypis(){
 
+    system("cls");
+
     char obsahStudenti[255];char obsahAbsence[255];
 
     FILE *studenti = fopen(fileName, "r");
     FILE *absence  = fopen(absenceFileName, "r");
 
-    for(int i = 0; i<3; i++){
-        fgets(obsahStudenti, sizeof(obsahStudenti), studenti);
-        printf("%s\n", studenti);
+    char stud[1024];
+    
+    while(1){
+        fgets(stud, sizeof(stud), studenti);
+        printf("%s", stud);
+        
+        char text[255];
+        int startIndex, endIndex;
+        //jmeno:
+        while(stud[endIndex] != '#') endIndex++;
+        moveCursor(4,4);
+        snprintf(text, sizeof(text), "")
+        printf("%s", );
+
+        if(stud[strlen(stud)-2] != '+') break;
     }
+
+
 }
 
 int main(){
