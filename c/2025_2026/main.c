@@ -95,29 +95,51 @@ void pridatApsenci(){
     FILE *absence = fopen(absenceFileName, "a");
     fprintf(absence, zapsat);
 }
+char* subString(const char* str, int start, int length) {
+    char* sub = malloc(length + 1);
+    strncpy(sub, str + start, length);  // Use pointer arithmetic
+    sub[length] = '\0';
+    return sub;
+}
 void vypis(){
 
     system("cls");
 
-    char obsahStudenti[255];char obsahAbsence[255];
+    // char obsahStudenti[255];char obsahAbsence[255];
 
     FILE *studenti = fopen(fileName, "r");
     FILE *absence  = fopen(absenceFileName, "r");
-
+    
     char stud[1024];
     
-    while(1){
-        fgets(stud, sizeof(stud), studenti);
-        printf("%s", stud);
+    fgets(stud, sizeof(stud), studenti);
+    // for(int j = 0; j<3; j++){
         
-        char text[255];
-        int startIndex, endIndex;
-        //jmeno:
-        while(stud[endIndex] != '#') endIndex++;
-        moveCursor(4,4);
-        snprintf(text, sizeof(text), "")
-        printf("%s", );
+    //     fgets(stud, sizeof(stud), studenti);
+    //     printf("%s\n", stud);
+    // }
+    int counter = 0;
+    while(1){
+        counter++;
+        moveCursor(10,50+counter+2);
 
+
+        fgets(stud, sizeof(stud), studenti);
+
+        printf("%s", stud);  
+
+        int startIndex = 0, endIndex = 0;
+        for(int i = 0; i<3; i++){
+            //jmeno:
+            while(stud[endIndex] != '#') endIndex++;
+            char *text = (char*)malloc(sizeof(stud));
+            text = subString(stud, startIndex, endIndex - startIndex);
+
+            moveCursor(4+16*i, 4);
+            printf("%s", text);
+        
+            startIndex = endIndex;
+        }
         if(stud[strlen(stud)-2] != '+') break;
     }
 
