@@ -5,7 +5,6 @@
 // #include <conio.h>
 #include <string.h>
 
-const char *path = "C:\\Users\\l.macura.st\\Documents\\GitHub\\ZPRG\\c\\2025_2026";
 const char *fileName = "soubor.txt";
 const char *absenceFileName = "absence.txt";
 
@@ -23,7 +22,7 @@ void moveCursor(int x, int y) {
 
 void pridatOsobu(){
 
-    DATA osoba[5];
+    DATA osoba[1]; //-------------<----<<<<
     system("cls");
 
     //jmeno
@@ -44,113 +43,183 @@ void pridatOsobu(){
     FILE *Rsoubor = fopen(fileName, "r");
     char buffer[1024];
     
-    int counter = 0;
-     while(1){
-        counter++;
-        fgets(buffer, sizeof(buffer), Rsoubor);
-        printf("%s\n%d\n%c", buffer, strlen(buffer)-1, buffer[0]);
-        if(buffer[strlen(buffer)-2] != '+') break;
+    int index = 0, counter = 0;
+    fgets(buffer, sizeof(buffer), Rsoubor);
+        
+    while(1){
+        if(buffer[index] == '\0') break;
+        else if(buffer[index] == '+') counter++;
+        index++;
     }
     fclose(Rsoubor);
 
     //zapsat
     char toWrite[255];
-    snprintf(toWrite, sizeof(toWrite), "+\n%d#%s#%s", counter, osoba[0].jmeno, osoba[0].prijmeni);
+    snprintf(toWrite, sizeof(toWrite), "+%d#%s#%s", counter, osoba[0].jmeno, osoba[0].prijmeni);
 
     FILE *Asoubor = fopen(fileName, "a");
     fprintf(Asoubor, toWrite);
 
     fclose(Asoubor);
 }
+int checkDate(char date[10]){
+    if(date[3] == 0){
+        if(date[4] != 0) return 1;
+    }else if(date[3] == 1){
+        if(date[4] <= 2) return 1;
+    }
+    return 0;
+}
 void pridatApsenci(){
+
+    char obsah[255];
+    FILE *studenti = fopen(fileName, "r");
+    fgets(obsah, sizeof(obsah), studenti);
+    int count = 0, idx = 0;
+    while(obsah[idx+1] != '\n') if(obsah[idx] == '+') count++;
 
     int idStudenta;
     char datum[32]; char odDo[32];
     
-    //id
-    setTextColor(2);
-    printf("vlozte id studenta: ");
-    setTextColor(14);
-    
-    scanf("%d", &idStudenta);
-
-    //den
-    setTextColor(2);
-    printf("vlozte datum: ");
-    setTextColor(14);
-    
-    scanf("%s", &datum);
-
-    //hodiny
-    setTextColor(2);
-    printf("vlozte do ktere do ktere hodiny [pr: 1-4]: ");
-    setTextColor(14);
-    
-    scanf("%s", &odDo);
-
+    while(idStudenta<count){
+        //id
+        setTextColor(2);
+        printf("vlozte id studenta: ");
+        setTextColor(14);
+        
+        scanf("%d", &idStudenta);
+    }
+    while(1){
+        //den
+        setTextColor(2);
+        printf("vlozte datum: ");
+        setTextColor(14);
+        
+        scanf("%s", &datum);
+        if(datum[0] == 0){
+            if(datum[1] != 0 && checkDate(datum)) break;
+        }else if(datum[0]<=3){
+            if(datum[1]<=31 && checkDate(datum)) break;
+        }
+    }
+    while(odDo[0]>=0 || odDo[0] > odDo[1]){
+        //hodiny
+        setTextColor(2);
+        printf("vlozte od ktere do ktere hodiny [pr: 1-4]: ");
+        setTextColor(14);
+        
+        scanf("%s", &odDo);
+    }
     //zapsat
     char zapsat[255];
-    snprintf(zapsat, sizeof(zapsat), "+\n%d#%s#%s", idStudenta, datum, odDo);
+    snprintf(zapsat, sizeof(zapsat), "+#%d#%s#%s#", idStudenta, datum, odDo);
 
     FILE *absence = fopen(absenceFileName, "a");
     fprintf(absence, zapsat);
+    system("cls");
+    printf("\n");
 }
-char* subString(const char* str, int start, int length) {
-    char* sub = malloc(length + 1);
-    strncpy(sub, str + start, length);  // Use pointer arithmetic
-    sub[length] = '\0';
-    return sub;
+void appendCharFromIndex(char* dest, const char* src, int srcIndex) {
+    // printf("%s /-/ %d", src, srcIndex);
+    // Check error
+    if (srcIndex < 0 || srcIndex >= strlen(src)) {
+        printf("ups!\n");
+        return;
+    }
+    
+    char temp[2] = {src[srcIndex], '\0'};
+    
+    strcat(dest, temp);
 }
 void vypis(){
 
-    system("cls");
+    setTextColor(2);
+    moveCursor(3,3); printf("id");
+    moveCursor(19,3); printf("jmeno");
+    moveCursor(35,3); printf("prijmeni");
+    moveCursor(0,0);
 
-    // char obsahStudenti[255];char obsahAbsence[255];
+    FILE *Rsoubor = fopen(fileName, "r");
+    char buffer[1024];
+    
+    int index = 1, counter = 0, AddedAbsenceHeight = 0;
+    fgets(buffer, sizeof(buffer), Rsoubor);
 
-    FILE *studenti = fopen(fileName, "r");
-    FILE *absence  = fopen(absenceFileName, "r");
-    
-    char stud[1024];
-    
-    fgets(stud, sizeof(stud), studenti);
-    // for(int j = 0; j<3; j++){
-        
-    //     fgets(stud, sizeof(stud), studenti);
-    //     printf("%s\n", stud);
-    // }
-    int counter = 0;
+
+    FILE *Rabsence = fopen(absenceFileName, "r");
+    char obsah[1024];
+
+    fgets(obsah, sizeof(obsah), Rabsence);
+
+
+    // printf("*%s*\n*%s*", buffer, obsah);
     while(1){
-        counter++;
-        moveCursor(10,50+counter+2);
+        if(buffer[index] == '\0') break;
 
-
-        fgets(stud, sizeof(stud), studenti);
-
-        printf("%s", stud);  
-
-        int startIndex = 0, endIndex = 0;
         for(int i = 0; i<3; i++){
-            //jmeno:
-            while(stud[endIndex] != '#') endIndex++;
-            char *text = (char*)malloc(sizeof(stud));
-            text = subString(stud, startIndex, endIndex - startIndex);
-
-            moveCursor(4+16*i, 4);
-            printf("%s", text);
+            char destination[64] = "";
         
-            startIndex = endIndex;
+            while(buffer[index+1] != '#'){
+                index++;
+                appendCharFromIndex(destination, buffer, index);
+            }
+            /*
+            if(i==0){
+                int index2 = 1;
+                while(1){
+                    if(obsah[index2] == '\0') break;
+                    
+                    int printThis = 0;
+                    for(int j = 0; j<3; j++){
+                        char abs[255] = "";
+
+                        while(obsah[index2+1] != '#' || obsah[index2+1] != '\0'){
+                            index2++;
+                            appendCharFromIndex(abs, obsah, index2);
+                        }
+                        setTextColor(3);
+                        if(j == 0){
+                            if(strcmp(abs, destination) == 0){
+                                printThis = 1;
+                            }
+                        }
+                        index2++;
+                    
+                        if(printThis){
+                            moveCursor(10+j*16, 3+(AddedAbsenceHeight+counter)*3);
+                            setTextColor(8);
+                            printf("%s", abs);
+                            AddedAbsenceHeight++;
+                        }
+                    }
+                    index2++;
+                }
+            }
+            */
+
+            index++;
+
+            moveCursor(3+i*16, 6+(AddedAbsenceHeight+counter)*3);
+            setTextColor(4);
+            printf("%s", destination);
+            
         }
-        if(stud[strlen(stud)-2] != '+') break;
+        index+=2;
+        counter++;
     }
-
-
+    fclose(Rsoubor); fclose(Rabsence);
 }
 
 int main(){
-    _chdir(path);
+    char cwd[MAX_PATH];
+    _getcwd(cwd, sizeof(cwd));
 
-    // pridatApsenci();
-    // pridatOsobu();
+    _chdir(cwd);
+    // printf("\n\n%s\n\n", cwd);
+
+    
+    // for(int i = 0; i<5; i++) pridatOsobu();
+    // for(int i = 0; i<5; i++) pridatApsenci();
 
     vypis();
 
