@@ -152,7 +152,7 @@ void vypis(){
     fgets(obsah, sizeof(obsah), Rabsence);
 
 
-    // printf("*%s*\n*%s*", buffer, obsah);
+    printf("*%s*\n*%s*", buffer, obsah);
     while(1){
         if(buffer[index] == '\0') break;
 
@@ -162,6 +162,23 @@ void vypis(){
             while(buffer[index+1] != '#'){
                 index++;
                 appendCharFromIndex(destination, buffer, index);
+            }
+            if(i == 0){
+                int printThis = 0;
+                int index2 = 1;
+                while(obsah[index2+1] != '\0'){
+                    index2++;
+                    for(int j = 0; j<10; j++){
+                        if(j == 0 && obsah[index2] == buffer[index]){
+                            printThis = 1;
+                        }else if(printThis){
+                            setTextColor(8);
+                            moveCursor(10+i*16, 6+(AddedAbsenceHeight+counter)*3);
+                            AddedAbsenceHeight++;
+                        }
+                    }
+                    printThis = 0;
+                }
             }
             /*
             if(i==0){
