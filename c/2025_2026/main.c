@@ -119,7 +119,7 @@ void pridatApsenci(){
     system("cls");
     printf("\n");
 }
-void appendCharFromIndex(char* dest, const char* src, int srcIndex) {
+void appendCharFromIndex(char* dest, char src[1024], int srcIndex) {
     // printf("%s /-/ %d", src, srcIndex);
     // Check error
     if (srcIndex < 0 || srcIndex >= strlen(src)) {
@@ -141,6 +141,7 @@ void vypis(){
 
     FILE *Rsoubor = fopen(fileName, "r");
     char buffer[1024];
+    // char *buffer = (char*)malloc(1024);
     
     int index = 1, counter = 0, AddedAbsenceHeight = 0;
     fgets(buffer, sizeof(buffer), Rsoubor);
