@@ -38,6 +38,7 @@ class GamePanel extends JPanel {
     }
 
     public void update() {
+        
         x += xSpeed;
         y += ySpeed;
 
@@ -48,6 +49,10 @@ class GamePanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        Color bg = new Color(32,32,32);
+        g.setColor(bg);
+        g.fillRect(0,0,getWidth(),getHeight());
 
         // Draw a moving rectangle
         g.setColor(Color.RED);
