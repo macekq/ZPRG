@@ -52,10 +52,6 @@ class GamePanel extends JPanel implements KeyListener {
 
         // WSAD movement
 
-        if(pressedKeys.contains(KeyEvent.VK_S) && playerY+moveSpeed < 20) {
-            Hra.fallSpeed = 2;
-        }
-
         if (pressedKeys.contains(KeyEvent.VK_A) && playerX-moveSpeed >= 0) {
             playerX -= moveSpeed;
         }
@@ -72,18 +68,18 @@ class GamePanel extends JPanel implements KeyListener {
         g.setColor(bg);
         g.fillRect(0,0,getWidth(),getHeight());
 
-        g.setColor(Color.RED);
-
         for(int j = 0; j<20; j++){
-            for(int i = 0; i<10; i++){
+            for(int i = 1; i<=10; i++){
 
                 if(Hra.MATRIX[j][i] != 0){
+                    g.setColor(Hra.colorArr[Hra.MATRIX[j][i]]);
                     g.fillRect(i*50, j*50, 50, 50);
                 }
             }
         }
 
         //display shape
+        g.setColor(Hra.colorArr[Hra.crrColor]);
         for(int j = 0; j<4; j++){
             for(int i = 0; i<4; i++){
 
