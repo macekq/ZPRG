@@ -5,6 +5,7 @@
         "conio.h": "c",
         "stdio.h": "c",
         "time.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "stdlib.h": "c"
     }
 }
