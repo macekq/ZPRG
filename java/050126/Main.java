@@ -1,4 +1,3 @@
-import java.sql.SQLOutput;
 import java.util.Scanner;
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -12,23 +11,27 @@ public class Main {
     }
     public static void main(String[] args) {
 
+        for(String item : args){
+            System.out.println(item);
+        }
+
+        long startTime = System.currentTimeMillis();
+
         Scanner sc = new Scanner(System.in);
-        int p2, p1 = sc.nextInt();
-        switch (p1) {
-            case 1:
-                System.out.println("parametr 2: ");
-                p2 = sc.nextInt();
+        int p2;
+        switch (args[0]) {
+            case "1":
+                p2 = Integer.parseInt(args[1]);
                 for (int i = 1; i < p2; i++) System.out.println(i);
                 break;
 
-            case 2:
-                System.out.println("parametr 2: ");
-                p2 = sc.nextInt();
+            case "2":
+                p2 = Integer.parseInt(args[1]);
                 if (p2 % 2 == 1) p2--;
 
-                int p3 = sc.nextInt();
+                int p3 = Integer.parseInt(args[2]);
 
-                for (int i = p2; i < p3; i++) {
+                for (int i = p2; i<=p3; i++) {
                     if (prvocislo(i)) System.out.println(i);
                 }
 
@@ -51,5 +54,6 @@ public class Main {
                     if (veta.charAt(i) == ' ') last = true;
                 }
         }
+        System.out.println ( "Čas potřebný pro zřetězení pomocí řetězce:" + (System.currentTimeMillis () - startTime) + "ms" );
     }
 }
