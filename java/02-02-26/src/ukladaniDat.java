@@ -8,13 +8,24 @@ public class ukladaniDat{
     public static String path = "C:\\Users\\l.macura.st\\Desktop\\EVILADRESAR";
 
     public ukladaniDat(){
-        path += "\\DATA";
+        Scanner sc = new Scanner(System.in);
+        String directoryPath;
+
+        do{
+            System.out.println();
+            System.out.println("vlozte vas adresar:");
+            directoryPath = sc.nextLine();
+
+        }while(directoryPath != "");
+
+        File dir = new File(directoryPath);
+
+        path = directoryPath + "\\DATA";
         File data = new File(path);
-        data.mkdir();
+        if(data.exists()) data.mkdir();
 
         cteniAdresare(path);
         setMaxNum();
-        Scanner sc = new Scanner(System.in);
         String userInput = "";
         boolean ok = false;
         do{
@@ -31,7 +42,7 @@ public class ukladaniDat{
     }
     public static void vytvareniSouboru(int pocet){
         for(int i = 1; i<=pocet; i++) {
-            File soubor = new File(path + "\\" +  (max+i) + ".txt");
+            File soubor = new File(path + "\\" + "data" +  (max+i) + ".txt");
             try {
                 if (!soubor.exists()) System.out.println(soubor.createNewFile());
             } catch (Exception chyba) {

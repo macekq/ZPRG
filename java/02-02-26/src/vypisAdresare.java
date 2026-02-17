@@ -4,6 +4,7 @@ import java.util.Scanner;
 public class vypisAdresare{
     public static final String RESET = "\033[0m";
     public static final String CYAN = "\033[0;36m";
+    public static int pocetSouboru = 0;
 
     public vypisAdresare(){
 
@@ -24,6 +25,7 @@ public class vypisAdresare{
         if (directory.exists() && directory.isDirectory()){
 
             String[] files = directory.list();
+            pocetSouboru = 0;
             for (String fileName : files){
                 File soubor = new File(dir + "\\" + fileName);
 
@@ -33,9 +35,13 @@ public class vypisAdresare{
                     System.out.print(CYAN + fileName + " ->" + soubor.length()/1024.0 + "KB\n" + RESET);
                     obsahAdresare(soubor.getAbsolutePath(), distance+1);
 
-                }else System.out.print(fileName + " ->" + soubor.length()/1024.0 + "KB\n");
+                }else {
+                    pocetSouboru++;
+                    System.out.print(fileName + " ->" + soubor.length() / 1024.0 + "KB\n");
+                }
             }
 
         } else System.out.println("*");
+        System.out.println("pocet -> " + pocetSouboru);
     }
 }
