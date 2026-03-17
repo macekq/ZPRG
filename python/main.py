@@ -1,5 +1,5 @@
 import os
-path = 'C:/Users/l.macura.st/Documents/GitHub/cigitonda.vip/zwa/makeItTierList/assets/got/'
+path = 'C:\\Users\\lukma\\OneDrive\\Desktop\\škola\\render\\'
 dirList = os.listdir(path)
 startFrom = 0
 
