@@ -1,0 +1,138 @@
+C51 COMPILER V9.60.0.0   POKUSY_MACURA19_03_26                                             03/19/2026 11:54:12 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE POKUSY_MACURA19_03_26
+OBJECT MODULE PLACED IN .\src\pokusy_macura19-03-26.OBJ
+COMPILER INVOKED BY: C:\SiliconLabs\SimplicityStudio\v5\developer\toolchains\keil_8051\9.60\BIN\C51.exe C:\Users\l.macur
+                    -a.st\Documents\GitHub\ZPRG\microkontrolery\pokusy_macura_19-03-26\src\pokusy_macura19-03-26.c OMF2 SMALL DEBUG OBJECTEXT
+                    -END ROM(LARGE) WARNINGLEVEL(2) FLOATFUZZY(3) OPTIMIZE(8,SPEED) DEFINE(DEBUG=1) INTVECTOR(0X0000) INTPROMOTE INCDIR(C:/Si
+                    -liconLabs/SimplicityStudio/v5/developer/sdks/8051/v4.3.0//Device/shared/si8051Base;C:/SiliconLabs/SimplicityStudio/v5/de
+                    -veloper/sdks/8051/v4.3.0//Device/C8051F310/inc) PRINT(.\src\pokusy_macura19-03-26.lst) COND PAGEWIDTH(120) PAGELENGTH(65
+                    -) OBJECT(.\src\pokusy_macura19-03-26.OBJ)
+
+line level    source
+
+   1          //NAZEV PROJEKTU : pokusy s tlacitkem alert
+   2          //Autor: Lukas Macura
+   3          //19-03-26
+   4          //V1
+   5          //historie zmen:
+   6          
+   7          //-----------------------------------------------------------------------------
+   8          // Includes
+   9          //-----------------------------------------------------------------------------
+  10          
+  11          #include <SI_C8051F310_Register_Enums.h>
+  12          #include <stdio.h>
+  13          
+  14          #define SYSCLK        24500000         // SYSCLK frequency in Hz
+  15          #define BAUDRATE      115200           // Baud rate of UART in bps
+  16          #define ANALOG_INPUTS 6                // Number of AIN pins to measure,
+  17                                                 // skipping the UART0 pins
+  18          #define INT_DEC       256              // Integrate and decimate ratio
+  19          
+  20          #define TIMER0_RELOAD_HIGH  0          // Timer0 High register
+  21          #define TIMER0_RELOAD_LOW 255          // Timer0 Low register
+  22          
+  23          //-----------------------------------------------------------------------------
+  24          // Function PROTOTYPES
+  25          //-----------------------------------------------------------------------------
+  26          SI_INTERRUPT_PROTO(ADC0_ISR, 10);
+  27          SI_INTERRUPT_PROTO(Timer2_ISR, 5);
+  28          
+  29          void Oscillator_Init (void);
+  30          void Port_Init (void);
+  31          void Timer2_Init(void);
+  32          void ADC0_Init(void);
+  33          void UART0_Init (void);
+  34          
+  35          void Timer0_wait(int16_t ms);
+  36          
+  37          //ja pridal:
+  38          void Init_Device(void);
+  39          //-----------------------------------------------------------------------------
+  40          // Global Variables
+  41          //-----------------------------------------------------------------------------
+  42          
+  43          //-----------------------------------------------------------------------------
+  44          void main (void)
+  45          {
+  46   1        Init_Device();
+  47   1      }
+  48          //-----------------------------------------------------------------------------
+  49          // SiLabs_Startup() Routine
+  50          // ----------------------------------------------------------------------------
+  51          // This function is called immediately after reset, before the initialization
+C51 COMPILER V9.60.0.0   POKUSY_MACURA19_03_26                                             03/19/2026 11:54:12 PAGE 2   
+
+  52          // code is run in SILABS_STARTUP.A51 (which runs before main() ). This is a
+  53          // useful place to disable the watchdog timer, which is enable by default
+  54          // and may trigger before main() in some instances.
+  55          //-----------------------------------------------------------------------------
+  56          void SiLabs_Startup (void)
+  57          {
+  58   1         PCA0MD &= ~0x40;                    // WDTE = 0 (clear watchdog timer
+  59   1      }
+  60          
+  61          //-----------------------------------------------------------------------------
+  62          
+  63          // Peripheral specific initialization functions,
+  64          // Called from the Init_Device() function
+  65          void Port_IO_Init()
+  66          {
+  67   1          // P0.0  -  Unassigned,  Open-Drain, Digital
+  68   1          // P0.1  -  Unassigned,  Push-Pull,  Digital
+  69   1          // P0.2  -  Unassigned,  Open-Drain, Digital
+  70   1          // P0.3  -  Unassigned,  Open-Drain, Digital
+  71   1          // P0.4  -  Unassigned,  Open-Drain, Digital
+  72   1          // P0.5  -  Unassigned,  Open-Drain, Digital
+  73   1          // P0.6  -  Unassigned,  Open-Drain, Digital
+  74   1          // P0.7  -  Unassigned,  Open-Drain, Digital
+  75   1      
+  76   1          // P1.0  -  Unassigned,  Open-Drain, Digital
+  77   1          // P1.1  -  Unassigned,  Open-Drain, Digital
+  78   1          // P1.2  -  Unassigned,  Open-Drain, Digital
+  79   1          // P1.3  -  Unassigned,  Open-Drain, Digital
+  80   1          // P1.4  -  Unassigned,  Open-Drain, Digital
+  81   1          // P1.5  -  Unassigned,  Open-Drain, Digital
+  82   1          // P1.6  -  Unassigned,  Open-Drain, Digital
+  83   1          // P1.7  -  Unassigned,  Open-Drain, Digital
+  84   1          // P2.0  -  Unassigned,  Open-Drain, Digital
+  85   1          // P2.1  -  Unassigned,  Open-Drain, Digital
+  86   1          // P2.2  -  Unassigned,  Open-Drain, Digital
+  87   1          // P2.3  -  Unassigned,  Open-Drain, Digital
+  88   1      
+  89   1          P0MDOUT   = 0x02;
+  90   1          XBR1      = 0x40;
+  91   1      }
+  92          
+  93          // Initialization function for device,
+  94          // Call Init_Device() from your main program
+  95          void Init_Device(void)
+  96          {
+  97   1          Port_IO_Init();
+  98   1      }
+  99          
+ 100          //-----------------------------------------------------------------------------
+ 101          // End Of File
+ 102          //-----------------------------------------------------------------------------
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     17    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+C51 COMPILER V9.60.0.0   POKUSY_MACURA19_03_26                                             03/19/2026 11:54:12 PAGE 3   
+
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
