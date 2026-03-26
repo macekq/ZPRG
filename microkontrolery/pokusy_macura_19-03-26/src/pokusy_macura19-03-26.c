@@ -34,16 +34,29 @@ void UART0_Init (void);
 
 void Timer0_wait(int16_t ms);
 
+
 //ja pridal:
+void blick(void);
+void delay(void);
 void Init_Device(void);
 //-----------------------------------------------------------------------------
 // Global Variables
 //-----------------------------------------------------------------------------
 
+sbit button = P0^0;
+sbit led = P0^1;
+unsigned int zpozdeni = 50000;
+
 //-----------------------------------------------------------------------------
 void main (void)
 {
   Init_Device();
+  led = 0;
+
+  while(button == 0){
+      blick();
+  }
+
 }
 //-----------------------------------------------------------------------------
 // SiLabs_Startup() Routine
@@ -59,6 +72,19 @@ void SiLabs_Startup (void)
 }
 
 //-----------------------------------------------------------------------------
+void blick(void){
+  int i = 0;
+  for(i = 0; i<20; i++){
+      if(i%2 == 1) led = 0;
+      else led = 1;
+      delay();
+  }
+}
+
+void delay(void){
+  int pocetCyklu = 0;
+  while(pocetCyklu < zpozdeni) pocetCyklu++;
+}
 
 // Peripheral specific initialization functions,
 // Called from the Init_Device() function

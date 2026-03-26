@@ -1,4 +1,4 @@
-LX51 LINKER/LOCATER V4.66.97.0                                                          03/19/2026  11:54:12  PAGE 1
+LX51 LINKER/LOCATER V4.66.97.0                                                          03/26/2026  11:49:27  PAGE 1
 
 
 LX51 LINKER/LOCATER V4.66.97.0, INVOKED BY:
@@ -17,6 +17,12 @@ INPUT MODULES INCLUDED:
          COMMENT TYPE 0: AX51 V3.15.3.0
   ./src/pokusy_macura19-03-26.OBJ (POKUSY_MACURA19_03_26)
          COMMENT TYPE 0: C51 V9.60.0.0
+  C:\SILICONLABS\SIMPLICITYSTUDIO\V5\DEVELOPER\TOOLCHAINS\KEIL_8051\9.60\LIB\C51S.LIB (?C_INIT)
+         COMMENT TYPE 1: A51 / ASM51 Assembler
+  C:\SILICONLABS\SIMPLICITYSTUDIO\V5\DEVELOPER\TOOLCHAINS\KEIL_8051\9.60\LIB\C51S.LIB (?C?SIDIV)
+         COMMENT TYPE 1: A51 / ASM51 Assembler
+  C:\SILICONLABS\SIMPLICITYSTUDIO\V5\DEVELOPER\TOOLCHAINS\KEIL_8051\9.60\LIB\C51S.LIB (?C?UIDIV)
+         COMMENT TYPE 1: A51 / ASM51 Assembler
 
 
 ACTIVE MEMORY CLASSES OF MODULE:  POKUSY_MACURA_19-03-26.OMF.CRBUILD (?C_STARTUP)
@@ -27,9 +33,9 @@ C:000000H   C:000000H   C:001FFEH             ECODE
 C:000000H   C:000000H   C:001FFEH             HCONST
 X:000000H   X:000000H   X:0003FFH             XDATA
 X:000000H   X:000000H   X:0003FFH             HDATA
-C:000000H   C:000000H   C:00FFFFH   000023H   CODE
+C:000000H   C:000000H   C:00FFFFH   000189H   CODE
 I:000000H   I:000000H   I:0000FFH   000001H   IDATA
-I:000000H   I:000000H   I:00007FH   000008H   DATA
+I:000000H   I:000000H   I:00007FH   00000CH   DATA
 
 
 MEMORY MAP OF MODULE:  POKUSY_MACURA_19-03-26.OMF.CRBUILD (?C_STARTUP)
@@ -40,16 +46,25 @@ START     STOP      LENGTH    ALIGN  RELOC    MEMORY CLASS   SEGMENT NAME
 
 * * * * * * * * * * *   D A T A   M E M O R Y   * * * * * * * * * * * * *
 000000H   000007H   000008H   ---    AT..     DATA           "REG BANK 0"
-000008H   000008H   000001H   BYTE   UNIT     IDATA          ?STACK
+000008H   000009H   000002H   BYTE   UNIT     DATA           ?DT?POKUSY_MACURA19_03_26
+00000AH   00000BH   000002H   BYTE   UNIT     DATA           _DATA_GROUP_
+00000CH   00000CH   000001H   BYTE   UNIT     IDATA          ?STACK
 
 * * * * * * * * * * *   C O D E   M E M O R Y   * * * * * * * * * * * * *
 000000H   000002H   000003H   ---    OFFS..   CODE           ?CO?SILABS_STARTUP?3
-000003H   000009H   000007H   BYTE   UNIT     CODE           ?PR?PORT_IO_INIT?POKUSY_MACURA19_03_26
-00000AH   00000DH   000004H   BYTE   UNIT     CODE           ?PR?SILABS_STARTUP?POKUSY_MACURA19_03_26
-00000EH   000010H   000003H   BYTE   UNIT     CODE           ?PR?MAIN?POKUSY_MACURA19_03_26
-000011H   000013H   000003H   BYTE   UNIT     CODE           ?PR?INIT_DEVICE?POKUSY_MACURA19_03_26
-000014H   0007FFH   0007ECH   ---    ---      **GAP**
-000800H   00080EH   00000FH   BYTE   UNIT     CODE           ?C_C51STARTUP
+000003H   00008DH   00008BH   BYTE   UNIT     CODE           ?C?LIB_CODE
+00008EH   0000C4H   000037H   BYTE   UNIT     CODE           ?PR?BLICK?POKUSY_MACURA19_03_26
+0000C5H   0000D8H   000014H   BYTE   UNIT     CODE           ?PR?DELAY?POKUSY_MACURA19_03_26
+0000D9H   0000E6H   00000EH   BYTE   UNIT     CODE           ?PR?MAIN?POKUSY_MACURA19_03_26
+0000E7H   0000EDH   000007H   BYTE   UNIT     CODE           ?PR?PORT_IO_INIT?POKUSY_MACURA19_03_26
+0000EEH   0000F2H   000005H   BYTE   UNIT     CODE           ?C_INITSEG
+0000F3H   0000F6H   000004H   BYTE   UNIT     CODE           ?PR?SILABS_STARTUP?POKUSY_MACURA19_03_26
+0000F7H   0000F9H   000003H   BYTE   UNIT     CODE           ?PR?INIT_DEVICE?POKUSY_MACURA19_03_26
+0000FAH   0007FFH   000706H   ---    ---      **GAP**
+000800H   00088EH   00008FH   BYTE   UNIT     CODE           ?C_C51STARTUP
+
+
+LX51 LINKER/LOCATER V4.66.97.0                                                        03/26/2026  11:49:27  PAGE 2
 
 
 
@@ -62,19 +77,25 @@ FUNCTION/MODULE                            BIT_GROUP   DATA_GROUP
 ?C_C51STARTUP                             ----- -----  ----- -----
   +--> SILABS_STARTUP/POKUSY_MACURA19_03_26
   +--> MAIN/POKUSY_MACURA19_03_26
+  +--> ?C_INITSEG
 
 SILABS_STARTUP/POKUSY_MACURA19_03_26      ----- -----  ----- -----
-LX51 LINKER/LOCATER V4.66.97.0                                                        03/19/2026  11:54:12  PAGE 2
-
-
 
 MAIN/POKUSY_MACURA19_03_26                ----- -----  ----- -----
   +--> INIT_DEVICE/POKUSY_MACURA19_03_26
+  +--> BLICK/POKUSY_MACURA19_03_26
 
 INIT_DEVICE/POKUSY_MACURA19_03_26         ----- -----  ----- -----
   +--> PORT_IO_INIT/POKUSY_MACURA19_03_26
 
 PORT_IO_INIT/POKUSY_MACURA19_03_26        ----- -----  ----- -----
+
+BLICK/POKUSY_MACURA19_03_26               ----- -----  000AH 000BH
+  +--> DELAY/POKUSY_MACURA19_03_26
+
+DELAY/POKUSY_MACURA19_03_26               ----- -----  ----- -----
+
+?C_INITSEG                                ----- -----  ----- -----
 
 
 
@@ -84,8 +105,10 @@ PUBLIC SYMBOLS OF MODULE:  POKUSY_MACURA_19-03-26.OMF.CRBUILD (?C_STARTUP)
       VALUE       CLASS    TYPE      PUBLIC SYMBOL NAME
       =================================================
       00000000H   NUMBER   ---       ?C?CODESEG
+      01000003H   CODE     ---       ?C?SIDIV
+      01000039H   CODE     ---       ?C?UIDIV
       00000000H   NUMBER   ---       ?C?XDATASEG
-      0100000EH   CODE     ---       ?C_START
+      0100084AH   CODE     ---       ?C_START
       01000000H   CODE     NEAR LAB  ?C_STARTUP
 *SFR* 000000E0H   DATA     BYTE      ACC
 *SFR* 000000E0H.0 DATA     BIT       ACC_ACC0
@@ -106,6 +129,9 @@ PUBLIC SYMBOLS OF MODULE:  POKUSY_MACURA_19-03-26.OMF.CRBUILD (?C_STARTUP)
 *SFR* 000000E8H.7 DATA     BIT       ADC0CN_ADEN
 *SFR* 000000E8H.5 DATA     BIT       ADC0CN_ADINT
 *SFR* 000000E8H.6 DATA     BIT       ADC0CN_ADTM
+LX51 LINKER/LOCATER V4.66.97.0                                                        03/26/2026  11:49:27  PAGE 3
+
+
 *SFR* 000000E8H.3 DATA     BIT       ADC0CN_ADWINT
 *SFR* 000000C3H   DATA     WORD      ADC0GT
 *SFR* 000000C4H   DATA     BYTE      ADC0GTH
@@ -126,17 +152,17 @@ PUBLIC SYMBOLS OF MODULE:  POKUSY_MACURA_19-03-26.OMF.CRBUILD (?C_STARTUP)
 *SFR* 000000F0H.5 DATA     BIT       B_B5
 *SFR* 000000F0H.6 DATA     BIT       B_B6
 *SFR* 000000F0H.7 DATA     BIT       B_B7
+      0100008EH   CODE     ---       blick
+*SFR* 00000080H.0 DATA     BIT       button
 *SFR* 0000008EH   DATA     BYTE      CKCON
 *SFR* 000000A9H   DATA     BYTE      CLKSEL
 *SFR* 0000009BH   DATA     BYTE      CPT0CN
-LX51 LINKER/LOCATER V4.66.97.0                                                        03/19/2026  11:54:12  PAGE 3
-
-
 *SFR* 0000009DH   DATA     BYTE      CPT0MD
 *SFR* 0000009FH   DATA     BYTE      CPT0MX
 *SFR* 0000009AH   DATA     BYTE      CPT1CN
 *SFR* 0000009CH   DATA     BYTE      CPT1MD
 *SFR* 0000009EH   DATA     BYTE      CPT1MX
+      010000C5H   CODE     ---       delay
 *SFR* 00000082H   DATA     WORD      DP
 *SFR* 00000083H   DATA     BYTE      DPH
 *SFR* 00000082H   DATA     BYTE      DPL
@@ -154,7 +180,7 @@ PUBLIC SYMBOLS OF MODULE:  POKUSY_MACURA_19-03-26.OMF.CRBUILD (?C_STARTUP)
 *SFR* 000000A8H.5 DATA     BIT       IE_ET2
 *SFR* 000000A8H.0 DATA     BIT       IE_EX0
 *SFR* 000000A8H.2 DATA     BIT       IE_EX1
-      01000011H   CODE     ---       Init_Device
+      010000F7H   CODE     ---       Init_Device
 *SFR* 000000B8H   DATA     BYTE      IP
 *SFR* 000000B8H.4 DATA     BIT       IP_PS0
 *SFR* 000000B8H.6 DATA     BIT       IP_PSPI0
@@ -164,9 +190,13 @@ PUBLIC SYMBOLS OF MODULE:  POKUSY_MACURA_19-03-26.OMF.CRBUILD (?C_STARTUP)
 *SFR* 000000B8H.0 DATA     BIT       IP_PX0
 *SFR* 000000B8H.2 DATA     BIT       IP_PX1
 *SFR* 000000E4H   DATA     BYTE      IT01CF
-      0100000EH   CODE     ---       main
+*SFR* 00000080H.1 DATA     BIT       led
+      010000D9H   CODE     ---       main
 *SFR* 000000B3H   DATA     BYTE      OSCICL
 *SFR* 000000B2H   DATA     BYTE      OSCICN
+LX51 LINKER/LOCATER V4.66.97.0                                                        03/26/2026  11:49:27  PAGE 4
+
+
 *SFR* 000000B1H   DATA     BYTE      OSCXCN
 *SFR* 00000080H   DATA     BYTE      P0
 *SFR* 00000080H.0 DATA     BIT       P0_B0
@@ -194,9 +224,6 @@ PUBLIC SYMBOLS OF MODULE:  POKUSY_MACURA_19-03-26.OMF.CRBUILD (?C_STARTUP)
 *SFR* 000000D5H   DATA     BYTE      P1SKIP
 *SFR* 000000A0H   DATA     BYTE      P2
 *SFR* 000000A0H.0 DATA     BIT       P2_B0
-LX51 LINKER/LOCATER V4.66.97.0                                                        03/19/2026  11:54:12  PAGE 4
-
-
 *SFR* 000000A0H.1 DATA     BIT       P2_B1
 *SFR* 000000A0H.2 DATA     BIT       P2_B2
 *SFR* 000000A0H.3 DATA     BIT       P2_B3
@@ -232,6 +259,9 @@ PUBLIC SYMBOLS OF MODULE:  POKUSY_MACURA_19-03-26.OMF.CRBUILD (?C_STARTUP)
 *SFR* 000000FCH   DATA     BYTE      PCA0CPH0
 *SFR* 000000EAH   DATA     BYTE      PCA0CPH1
 *SFR* 000000ECH   DATA     BYTE      PCA0CPH2
+LX51 LINKER/LOCATER V4.66.97.0                                                        03/26/2026  11:49:27  PAGE 5
+
+
 *SFR* 000000EEH   DATA     BYTE      PCA0CPH3
 *SFR* 000000FEH   DATA     BYTE      PCA0CPH4
 *SFR* 000000FBH   DATA     BYTE      PCA0CPL0
@@ -248,7 +278,7 @@ PUBLIC SYMBOLS OF MODULE:  POKUSY_MACURA_19-03-26.OMF.CRBUILD (?C_STARTUP)
 *SFR* 000000F9H   DATA     BYTE      PCA0L
 *SFR* 000000D9H   DATA     BYTE      PCA0MD
 *SFR* 00000087H   DATA     BYTE      PCON
-      01000003H   CODE     ---       Port_IO_Init
+      010000E7H   CODE     ---       Port_IO_Init
 *SFR* 000000A0H   DATA     BYTE      PPAGE_SFR
 *SFR* 0000008FH   DATA     BYTE      PSCTL
 *SFR* 000000D0H   DATA     BYTE      PSW
@@ -259,9 +289,6 @@ PUBLIC SYMBOLS OF MODULE:  POKUSY_MACURA_19-03-26.OMF.CRBUILD (?C_STARTUP)
 *SFR* 000000D0H.2 DATA     BIT       PSW_OV
 *SFR* 000000D0H.0 DATA     BIT       PSW_PARITY
 *SFR* 000000D0H.3 DATA     BIT       PSW_RS0
-LX51 LINKER/LOCATER V4.66.97.0                                                        03/19/2026  11:54:12  PAGE 5
-
-
 *SFR* 000000D0H.4 DATA     BIT       PSW_RS1
 *SFR* 000000D1H   DATA     BYTE      REF0CN
 *SFR* 000000EFH   DATA     BYTE      RSTSRC
@@ -274,7 +301,7 @@ PUBLIC SYMBOLS OF MODULE:  POKUSY_MACURA_19-03-26.OMF.CRBUILD (?C_STARTUP)
 *SFR* 00000098H.7 DATA     BIT       SCON0_SMODE
 *SFR* 00000098H.3 DATA     BIT       SCON0_TB8
 *SFR* 00000098H.1 DATA     BIT       SCON0_TI
-      0100000AH   CODE     ---       SILABS_STARTUP
+      010000F3H   CODE     ---       SILABS_STARTUP
 *SFR* 000000C1H   DATA     BYTE      SMB0CF
 *SFR* 000000C0H   DATA     BYTE      SMB0CN
 *SFR* 000000C0H.1 DATA     BIT       SMB0CN_ACK
@@ -297,6 +324,9 @@ PUBLIC SYMBOLS OF MODULE:  POKUSY_MACURA_19-03-26.OMF.CRBUILD (?C_STARTUP)
 *SFR* 000000F8H.0 DATA     BIT       SPI0CN_SPIEN
 *SFR* 000000F8H.7 DATA     BIT       SPI0CN_SPIF
 *SFR* 000000F8H.1 DATA     BIT       SPI0CN_TXBMT
+LX51 LINKER/LOCATER V4.66.97.0                                                        03/26/2026  11:49:27  PAGE 6
+
+
 *SFR* 000000F8H.6 DATA     BIT       SPI0CN_WCOL
 *SFR* 000000A3H   DATA     BYTE      SPI0DAT
 *SFR* 00000088H   DATA     BYTE      TCON
@@ -324,9 +354,6 @@ PUBLIC SYMBOLS OF MODULE:  POKUSY_MACURA_19-03-26.OMF.CRBUILD (?C_STARTUP)
 *SFR* 000000CDH   DATA     BYTE      TMR2H
 *SFR* 000000CCH   DATA     BYTE      TMR2L
 *SFR* 000000CAH   DATA     WORD      TMR2RL
-LX51 LINKER/LOCATER V4.66.97.0                                                        03/19/2026  11:54:12  PAGE 6
-
-
 *SFR* 000000CBH   DATA     BYTE      TMR2RLH
 *SFR* 000000CAH   DATA     BYTE      TMR2RLL
 *SFR* 00000094H   DATA     WORD      TMR3
@@ -339,6 +366,7 @@ PUBLIC SYMBOLS OF MODULE:  POKUSY_MACURA_19-03-26.OMF.CRBUILD (?C_STARTUP)
 *SFR* 000000FFH   DATA     BYTE      VDM0CN
 *SFR* 000000E1H   DATA     BYTE      XBR0
 *SFR* 000000E2H   DATA     BYTE      XBR1
+      00000008H   DATA     WORD      zpozdeni
 
 
 
@@ -361,6 +389,9 @@ SYMBOL TABLE OF MODULE:  POKUSY_MACURA_19-03-26.OMF.CRBUILD (?C_STARTUP)
       00000000H   SYMBOL    NUMBER   ---       PBPSTACK
       00000100H   SYMBOL    NUMBER   ---       PBPSTACKTOP
       00000000H   SYMBOL    NUMBER   ---       PDATALEN
+LX51 LINKER/LOCATER V4.66.97.0                                                        03/26/2026  11:49:27  PAGE 7
+
+
       00000000H   SYMBOL    NUMBER   ---       PDATASTART
       00000000H   SYMBOL    NUMBER   ---       PPAGE
       00000000H   SYMBOL    NUMBER   ---       PPAGEENABLE
@@ -385,13 +416,13 @@ SYMBOL TABLE OF MODULE:  POKUSY_MACURA_19-03-26.OMF.CRBUILD (?C_STARTUP)
       ---         BLOCKEND  ---      ---       LVL=0
 
       ---         MODULE    ---      ---       POKUSY_MACURA19_03_26
-      01000011H   PUBLIC    CODE     ---       Init_Device
-      01000003H   PUBLIC    CODE     ---       Port_IO_Init
-      0100000AH   PUBLIC    CODE     ---       SiLabs_Startup
-      0100000EH   PUBLIC    CODE     ---       main
-LX51 LINKER/LOCATER V4.66.97.0                                                        03/19/2026  11:54:12  PAGE 7
-
-
+      00000008H   PUBLIC    DATA     WORD      zpozdeni
+      010000F7H   PUBLIC    CODE     ---       Init_Device
+      010000E7H   PUBLIC    CODE     ---       Port_IO_Init
+      010000C5H   PUBLIC    CODE     ---       delay
+      0100008EH   PUBLIC    CODE     ---       blick
+      010000F3H   PUBLIC    CODE     ---       SiLabs_Startup
+      010000D9H   PUBLIC    CODE     ---       main
       000000A2H   SFRSYM    DATA     BYTE      SPI0CKR
       00000080H   SFRSYM    DATA     BYTE      P0
       000000D0H.2 SFRSYM    DATA     BIT       PSW_OV
@@ -423,6 +454,9 @@ SYMBOL TABLE OF MODULE:  POKUSY_MACURA_19-03-26.OMF.CRBUILD (?C_STARTUP)
       000000E8H.6 SFRSYM    DATA     BIT       ADC0CN_ADTM
       00000092H   SFRSYM    DATA     BYTE      TMR3RLL
       000000EAH   SFRSYM    DATA     BYTE      PCA0CPH1
+LX51 LINKER/LOCATER V4.66.97.0                                                        03/26/2026  11:49:27  PAGE 8
+
+
       00000098H.3 SFRSYM    DATA     BIT       SCON0_TB8
       000000F0H.0 SFRSYM    DATA     BIT       B_B0
       00000082H   SFRSYM    DATA     WORD      DP
@@ -454,11 +488,9 @@ SYMBOL TABLE OF MODULE:  POKUSY_MACURA_19-03-26.OMF.CRBUILD (?C_STARTUP)
       000000DEH   SFRSYM    DATA     BYTE      PCA0CPM4
       000000E1H   SFRSYM    DATA     BYTE      XBR0
       000000C1H   SFRSYM    DATA     BYTE      SMB0CF
-LX51 LINKER/LOCATER V4.66.97.0                                                        03/19/2026  11:54:12  PAGE 8
-
-
       000000E2H   SFRSYM    DATA     BYTE      XBR1
       000000AAH   SFRSYM    DATA     BYTE      EMI0CN
+      00000080H.0 SFRSYM    DATA     BIT       button
       000000C0H.2 SFRSYM    DATA     BIT       SMB0CN_ARBLOST
       000000E0H.0 SFRSYM    DATA     BIT       ACC_ACC0
       000000D1H   SFRSYM    DATA     BYTE      REF0CN
@@ -487,6 +519,9 @@ SYMBOL TABLE OF MODULE:  POKUSY_MACURA_19-03-26.OMF.CRBUILD (?C_STARTUP)
       000000F4H   SFRSYM    DATA     BYTE      P3MDIN
       000000C8H.7 SFRSYM    DATA     BIT       TMR2CN_TF2H
       000000C8H.3 SFRSYM    DATA     BIT       TMR2CN_T2SPLIT
+LX51 LINKER/LOCATER V4.66.97.0                                                        03/26/2026  11:49:27  PAGE 9
+
+
       000000F8H   SFRSYM    DATA     BYTE      SPI0CN
       000000D0H.3 SFRSYM    DATA     BIT       PSW_RS0
       00000087H   SFRSYM    DATA     BYTE      PCON
@@ -498,6 +533,7 @@ SYMBOL TABLE OF MODULE:  POKUSY_MACURA_19-03-26.OMF.CRBUILD (?C_STARTUP)
       000000E8H.3 SFRSYM    DATA     BIT       ADC0CN_ADWINT
       00000089H   SFRSYM    DATA     BYTE      TMOD
       00000088H   SFRSYM    DATA     BYTE      TCON
+      00000080H.1 SFRSYM    DATA     BIT       led
       000000E8H.4 SFRSYM    DATA     BIT       ADC0CN_ADBUSY
       000000F8H.5 SFRSYM    DATA     BIT       SPI0CN_MODF
       000000D0H.0 SFRSYM    DATA     BIT       PSW_PARITY
@@ -519,9 +555,6 @@ SYMBOL TABLE OF MODULE:  POKUSY_MACURA_19-03-26.OMF.CRBUILD (?C_STARTUP)
       000000A9H   SFRSYM    DATA     BYTE      CLKSEL
       000000B2H   SFRSYM    DATA     BYTE      OSCICN
       000000F0H   SFRSYM    DATA     BYTE      B
-LX51 LINKER/LOCATER V4.66.97.0                                                        03/19/2026  11:54:12  PAGE 9
-
-
       000000BEH   SFRSYM    DATA     BYTE      ADC0H
       000000F8H.7 SFRSYM    DATA     BIT       SPI0CN_SPIF
       000000CAH   SFRSYM    DATA     WORD      TMR2RL
@@ -551,6 +584,9 @@ SYMBOL TABLE OF MODULE:  POKUSY_MACURA_19-03-26.OMF.CRBUILD (?C_STARTUP)
       0000008BH   SFRSYM    DATA     BYTE      TL1
       000000F9H   SFRSYM    DATA     BYTE      PCA0L
       000000D0H.1 SFRSYM    DATA     BIT       PSW_F1
+LX51 LINKER/LOCATER V4.66.97.0                                                        03/26/2026  11:49:27  PAGE 10
+
+
       00000080H.0 SFRSYM    DATA     BIT       P0_B0
       000000B8H.0 SFRSYM    DATA     BIT       IP_PX0
       000000C8H.0 SFRSYM    DATA     BIT       TMR2CN_T2XCLK
@@ -584,9 +620,6 @@ SYMBOL TABLE OF MODULE:  POKUSY_MACURA_19-03-26.OMF.CRBUILD (?C_STARTUP)
       000000B0H.4 SFRSYM    DATA     BIT       P3_B4
       000000A0H.5 SFRSYM    DATA     BIT       P2_B5
       00000090H.6 SFRSYM    DATA     BIT       P1_B6
-LX51 LINKER/LOCATER V4.66.97.0                                                        03/19/2026  11:54:12  PAGE 10
-
-
       00000080H.7 SFRSYM    DATA     BIT       P0_B7
       000000A0H.6 SFRSYM    DATA     BIT       P2_B6
       00000090H.7 SFRSYM    DATA     BIT       P1_B7
@@ -616,6 +649,9 @@ SYMBOL TABLE OF MODULE:  POKUSY_MACURA_19-03-26.OMF.CRBUILD (?C_STARTUP)
       000000C2H   SFRSYM    DATA     BYTE      SMB0DAT
       000000C0H.5 SFRSYM    DATA     BIT       SMB0CN_STA
       000000CDH   SFRSYM    DATA     BYTE      TMR2H
+LX51 LINKER/LOCATER V4.66.97.0                                                        03/26/2026  11:49:27  PAGE 11
+
+
       000000A1H   SFRSYM    DATA     BYTE      SPI0CFG
       00000095H   SFRSYM    DATA     BYTE      TMR3H
       0000008EH   SFRSYM    DATA     BYTE      CKCON
@@ -637,39 +673,77 @@ SYMBOL TABLE OF MODULE:  POKUSY_MACURA_19-03-26.OMF.CRBUILD (?C_STARTUP)
       000000C0H.4 SFRSYM    DATA     BIT       SMB0CN_STO
       000000B7H   SFRSYM    DATA     BYTE      FLKEY
 
-      0100000EH   BLOCK     CODE     ---       LVL=0
-      0100000EH   LINE      CODE     ---       #44
-      0100000EH   LINE      CODE     ---       #45
-      0100000EH   LINE      CODE     ---       #46
+      010000D9H   BLOCK     CODE     ---       LVL=0
+      010000D9H   LINE      CODE     ---       #51
+      010000D9H   LINE      CODE     ---       #52
+      010000D9H   LINE      CODE     ---       #53
+      010000DCH   LINE      CODE     ---       #54
+      010000DEH   LINE      CODE     ---       #56
+      010000E1H   LINE      CODE     ---       #57
+      010000E4H   LINE      CODE     ---       #58
+      010000E6H   LINE      CODE     ---       #60
       ---         BLOCKEND  ---      ---       LVL=0
 
-      0100000AH   BLOCK     CODE     ---       LVL=0
-      0100000AH   LINE      CODE     ---       #56
-      0100000AH   LINE      CODE     ---       #57
-      0100000AH   LINE      CODE     ---       #58
-      0100000DH   LINE      CODE     ---       #59
-      ---         BLOCKEND  ---      ---       LVL=0
-LX51 LINKER/LOCATER V4.66.97.0                                                        03/19/2026  11:54:12  PAGE 11
-
-
-
-      01000003H   BLOCK     CODE     ---       LVL=0
-      01000003H   LINE      CODE     ---       #65
-      01000003H   LINE      CODE     ---       #66
-      01000003H   LINE      CODE     ---       #89
-      01000006H   LINE      CODE     ---       #90
-      01000009H   LINE      CODE     ---       #91
+      010000F3H   BLOCK     CODE     ---       LVL=0
+      010000F3H   LINE      CODE     ---       #69
+      010000F3H   LINE      CODE     ---       #70
+      010000F3H   LINE      CODE     ---       #71
+      010000F6H   LINE      CODE     ---       #72
       ---         BLOCKEND  ---      ---       LVL=0
 
-      01000011H   BLOCK     CODE     ---       LVL=0
-      01000011H   LINE      CODE     ---       #95
-      01000011H   LINE      CODE     ---       #96
-      01000011H   LINE      CODE     ---       #97
+      0100008EH   BLOCK     CODE     ---       LVL=0
+      0100008EH   BLOCK     CODE     NEAR LAB  LVL=1
+      0000000AH   SYMBOL    DATA     INT       i
+      ---         BLOCKEND  ---      ---       LVL=1
+      0100008EH   LINE      CODE     ---       #75
+      0100008EH   LINE      CODE     ---       #76
+      01000093H   LINE      CODE     ---       #77
+      01000097H   LINE      CODE     ---       #78
+      010000ACH   LINE      CODE     ---       #79
+      010000AEH   LINE      CODE     ---       #80
+      010000B1H   LINE      CODE     ---       #81
+      010000C4H   LINE      CODE     ---       #82
       ---         BLOCKEND  ---      ---       LVL=0
+
+      010000C5H   BLOCK     CODE     ---       LVL=0
+      010000C5H   BLOCK     CODE     NEAR LAB  LVL=1
+      00000006H   SYMBOL    DATA     INT       pocetCyklu
+      ---         BLOCKEND  ---      ---       LVL=1
+      010000C5H   LINE      CODE     ---       #84
+      010000C5H   LINE      CODE     ---       #85
+      010000C8H   LINE      CODE     ---       #86
+      010000D8H   LINE      CODE     ---       #87
+      ---         BLOCKEND  ---      ---       LVL=0
+LX51 LINKER/LOCATER V4.66.97.0                                                        03/26/2026  11:49:27  PAGE 12
+
+
+
+      010000E7H   BLOCK     CODE     ---       LVL=0
+      010000E7H   LINE      CODE     ---       #91
+      010000E7H   LINE      CODE     ---       #92
+      010000E7H   LINE      CODE     ---       #115
+      010000EAH   LINE      CODE     ---       #116
+      010000EDH   LINE      CODE     ---       #117
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      010000F7H   BLOCK     CODE     ---       LVL=0
+      010000F7H   LINE      CODE     ---       #121
+      010000F7H   LINE      CODE     ---       #122
+      010000F7H   LINE      CODE     ---       #123
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      ---         MODULE    ---      ---       ?C_INIT
+      0100084AH   PUBLIC    CODE     ---       ?C_START
+
+      ---         MODULE    ---      ---       ?C?SIDIV
+      01000003H   PUBLIC    CODE     ---       ?C?SIDIV
+
+      ---         MODULE    ---      ---       ?C?UIDIV
+      01000039H   PUBLIC    CODE     ---       ?C?UIDIV
 
 ******************************************************************************
-* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 0023H BYTE ( 1%) *
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 007DH BYTE ( 6%) *
 ******************************************************************************
 
-Program Size: data=9.0 xdata=0 const=0 code=35
+Program Size: data=13.0 xdata=0 const=0 code=393
 LX51 RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
