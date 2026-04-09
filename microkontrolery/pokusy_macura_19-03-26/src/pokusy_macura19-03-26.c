@@ -11,40 +11,23 @@
 #include <SI_C8051F310_Register_Enums.h>
 #include <stdio.h>
 
-#define SYSCLK        24500000         // SYSCLK frequency in Hz
-#define BAUDRATE      115200           // Baud rate of UART in bps
-#define ANALOG_INPUTS 6                // Number of AIN pins to measure,
-                                       // skipping the UART0 pins
-#define INT_DEC       256              // Integrate and decimate ratio
-
-#define TIMER0_RELOAD_HIGH  0          // Timer0 High register
-#define TIMER0_RELOAD_LOW 255          // Timer0 Low register
-
 //-----------------------------------------------------------------------------
 // Function PROTOTYPES
 //-----------------------------------------------------------------------------
-SI_INTERRUPT_PROTO(ADC0_ISR, 10);
-SI_INTERRUPT_PROTO(Timer2_ISR, 5);
-
-void Oscillator_Init (void);
-void Port_Init (void);
-void Timer2_Init(void);
-void ADC0_Init(void);
-void UART0_Init (void);
-
-void Timer0_wait(int16_t ms);
 
 
 //ja pridal:
 void blick(void);
 void delay(void);
 void Init_Device(void);
+void Timer2(void);
 //-----------------------------------------------------------------------------
 // Global Variables
 //-----------------------------------------------------------------------------
 
 sbit button = P0^0;
 sbit led = P0^1;
+sbit TF2H = TMR2CN^7;
 unsigned int zpozdeni = 50000;
 
 //-----------------------------------------------------------------------------
@@ -53,10 +36,9 @@ void main (void)
   Init_Device();
   led = 0;
 
-  while(button == 0){
-      blick();
-  }
+  while(1){
 
+  }
 }
 //-----------------------------------------------------------------------------
 // SiLabs_Startup() Routine
@@ -72,6 +54,11 @@ void SiLabs_Startup (void)
 }
 
 //-----------------------------------------------------------------------------
+void Timer2(void) interrupt 5{
+
+  TF2H = 0;
+  led = ~led;
+}
 void blick(void){
   int i = 0;
   for(i = 0; i<20; i++){
@@ -85,9 +72,25 @@ void delay(void){
   int pocetCyklu = 0;
   while(pocetCyklu < zpozdeni) pocetCyklu++;
 }
+//******************************************************************************
+//inicializace mcu
+//******************************************************************************
 
-// Peripheral specific initialization functions,
-// Called from the Init_Device() function
+// Initialization function for device,
+// Call Init_Device() from your main program
+
+//=======================================
+//pridano 9.4.26 slouzi k timeru
+//=======================================
+void Timer_Init()
+{
+    TMR2CN    = 0x04;
+    TMR2RLL   = 0x59;
+    TMR2RLH   = 0x9C;
+    TMR2L     = 0x59;
+    TMR2H     = 0x9C;
+}
+
 void Port_IO_Init()
 {
     // P0.0  -  Unassigned,  Open-Drain, Digital
@@ -116,12 +119,20 @@ void Port_IO_Init()
     XBR1      = 0x40;
 }
 
+void Interrupts_Init()
+{
+    IE        = 0xA0;
+}
+
 // Initialization function for device,
 // Call Init_Device() from your main program
 void Init_Device(void)
 {
+    Timer_Init();
     Port_IO_Init();
+    Interrupts_Init();
 }
+
 
 //-----------------------------------------------------------------------------
 // End Of File
