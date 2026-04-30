@@ -17,10 +17,13 @@
 
 
 //ja pridal:
-void blick(void);
 void delay(void);
 void Init_Device(void);
 void Timer2(void);
+void LATCH_CLOCK(void);
+void SHIFT_CLOCK(void);
+void Shift_Register(void);
+
 //-----------------------------------------------------------------------------
 // Global Variables
 //-----------------------------------------------------------------------------
@@ -28,16 +31,54 @@ void Timer2(void);
 sbit button = P0^0;
 sbit led = P0^1;
 sbit TF2H = TMR2CN^7;
-unsigned int zpozdeni = 50000;
+
+
+sbit SDI = P0^2;
+sbit SFT_CLK = P0^3;
+sbit LCH_CLK = P0^4;
+
+int timeControl;
+unsigned int zpozdeni;
+unsigned char kodovani[10] = {192, 249, 164, 176, 153, 146, 130, 248, 128, 144}; //0-9
+unsigned char TMPcislo;
+unsigned int cislo;
+const unsigned char mask = 128;
+
+volatile unsigned char sec;
+volatile unsigned char min1;
+volatile unsigned char min2;
+volatile unsigned char hod1;
+volatile unsigned char hod2;
 
 //-----------------------------------------------------------------------------
 void main (void)
 {
+
+timeControl = 0;
+zpozdeni = 50000;
+
+sec = 0;
+min1 = 0;
+min2 = 0;
+hod1 = 0;
+hod2 = 0;
+
   Init_Device();
   led = 0;
 
+  SDI = 0;
+  SFT_CLK = 0;
+  LCH_CLK = 0;
+
   while(1){
 
+      cislo = kodovani[2];
+      Shift_Register();
+
+      cislo = 1;
+      Shift_Register();
+
+      LATCH_CLOCK();
   }
 }
 //-----------------------------------------------------------------------------
@@ -54,18 +95,67 @@ void SiLabs_Startup (void)
 }
 
 //-----------------------------------------------------------------------------
-void Timer2(void) interrupt 5{
+void Timer2(void)/*interrupt 5*/{
+
+  if(timeControl >= 10){
+      timeControl = 0;
+      sec++;
+      led = ~led;
+
+      if(sec == 60){
+          sec = 0;
+          min1++;
+
+          if(min1 == 10){
+              min2++;
+              min1 = 0;
+
+              if(min2 == 6){
+                  min2 = 0;
+                  hod1++;
+
+                  if(hod2 == 1 && hod1 == 2){
+                      hod2 = 0;
+                      hod1 = 0;
+
+                  }else if(hod1 == 10){
+                      hod2 = 1;
+                      hod1 = 0;
+                  }
+              }
+          }
+      }
+  }
 
   TF2H = 0;
-  led = ~led;
+  timeControl++;
+
 }
-void blick(void){
-  int i = 0;
-  for(i = 0; i<20; i++){
-      if(i%2 == 1) led = 0;
-      else led = 1;
-      delay();
+void Shift_Register(void){
+  int pocet_bitu;
+  for(pocet_bitu = 0; pocet_bitu < 8; pocet_bitu++){
+      TMPcislo = cislo & mask;
+
+      SDI = TMPcislo == 0 ? 0 : 1;
+
+      SHIFT_CLOCK();
+      cislo = cislo << 1;
   }
+}
+
+void SHIFT_CLOCK(void){
+
+  SFT_CLK = 1;
+  delay();
+  SFT_CLK = 0;
+  delay();
+}
+void LATCH_CLOCK(void){
+
+  LCH_CLK = 1;
+  delay();
+  LCH_CLK = 0;
+  delay();
 }
 
 void delay(void){
@@ -115,8 +205,10 @@ void Port_IO_Init()
     // P2.2  -  Unassigned,  Open-Drain, Digital
     // P2.3  -  Unassigned,  Open-Drain, Digital
 
-    P0MDOUT   = 0x02;
-    XBR1      = 0x40;
+    //P0MDOUT   = 0x02;
+    //XBR1      = 0x40;
+    P0MDOUT = 0x1E;
+    XBR1 = 0x40;
 }
 
 void Interrupts_Init()

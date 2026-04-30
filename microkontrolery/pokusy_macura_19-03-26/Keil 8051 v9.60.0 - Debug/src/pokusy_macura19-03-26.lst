@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   POKUSY_MACURA19_03_26                                             04/09/2026 11:55:55 PAGE 1   
+C51 COMPILER V9.60.0.0   POKUSY_MACURA19_03_26                                             04/30/2026 11:55:56 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE POKUSY_MACURA19_03_26
@@ -31,139 +31,235 @@ line level    source
   17          
   18          
   19          //ja pridal:
-  20          void blick(void);
-  21          void delay(void);
-  22          void Init_Device(void);
-  23          void Timer2(void);
-  24          //-----------------------------------------------------------------------------
-  25          // Global Variables
-  26          //-----------------------------------------------------------------------------
-  27          
-  28          sbit button = P0^0;
-  29          sbit led = P0^1;
-  30          sbit TF2H = TMR2CN^7;
-  31          unsigned int zpozdeni = 50000;
-  32          
-  33          //-----------------------------------------------------------------------------
-  34          void main (void)
-  35          {
-  36   1        Init_Device();
-  37   1        led = 0;
-  38   1      
-  39   1        while(1){
-  40   2      
-  41   2        }
-  42   1      }
-  43          //-----------------------------------------------------------------------------
-  44          // SiLabs_Startup() Routine
-  45          // ----------------------------------------------------------------------------
-  46          // This function is called immediately after reset, before the initialization
-  47          // code is run in SILABS_STARTUP.A51 (which runs before main() ). This is a
-  48          // useful place to disable the watchdog timer, which is enable by default
-  49          // and may trigger before main() in some instances.
-  50          //-----------------------------------------------------------------------------
-  51          void SiLabs_Startup (void)
-C51 COMPILER V9.60.0.0   POKUSY_MACURA19_03_26                                             04/09/2026 11:55:55 PAGE 2   
+  20          void delay(void);
+  21          void Init_Device(void);
+  22          void Timer2(void);
+  23          void LATCH_CLOCK(void);
+  24          void SHIFT_CLOCK(void);
+  25          void Shift_Register(void);
+  26          
+  27          //-----------------------------------------------------------------------------
+  28          // Global Variables
+  29          //-----------------------------------------------------------------------------
+  30          
+  31          sbit button = P0^0;
+  32          sbit led = P0^1;
+  33          sbit TF2H = TMR2CN^7;
+  34          
+  35          
+  36          sbit SDI = P0^2;
+  37          sbit SFT_CLK = P0^3;
+  38          sbit LCH_CLK = P0^4;
+  39          
+  40          int timeControl;
+  41          unsigned int zpozdeni;
+  42          unsigned char kodovani[10] = {192, 249, 164, 176, 153, 146, 130, 248, 128, 144}; //0-9
+  43          unsigned char TMPcislo;
+  44          unsigned int cislo;
+  45          const unsigned char mask = 128;
+  46          
+  47          volatile unsigned char sec;
+  48          volatile unsigned char min1;
+  49          volatile unsigned char min2;
+  50          volatile unsigned char hod1;
+  51          volatile unsigned char hod2;
+C51 COMPILER V9.60.0.0   POKUSY_MACURA19_03_26                                             04/30/2026 11:55:56 PAGE 2   
 
-  52          {
-  53   1         PCA0MD &= ~0x40;                    // WDTE = 0 (clear watchdog timer
-  54   1      }
-  55          
-  56          //-----------------------------------------------------------------------------
-  57          void Timer2(void) interrupt 5{
-  58   1      
-  59   1        TF2H = 0;
-  60   1        led = ~led;
-  61   1      }
-  62          void blick(void){
-  63   1        int i = 0;
-  64   1        for(i = 0; i<20; i++){
-  65   2            if(i%2 == 1) led = 0;
-  66   2            else led = 1;
-  67   2            delay();
-  68   2        }
-  69   1      }
-  70          
-  71          void delay(void){
-  72   1        int pocetCyklu = 0;
-  73   1        while(pocetCyklu < zpozdeni) pocetCyklu++;
-  74   1      }
-  75          //******************************************************************************
-  76          //inicializace mcu
-  77          //******************************************************************************
-  78          
-  79          // Initialization function for device,
-  80          // Call Init_Device() from your main program
-  81          
-  82          //=======================================
-  83          //pridano 9.4.26 slouzi k timeru
-  84          //=======================================
-  85          void Timer_Init()
-  86          {
-  87   1          TMR2CN    = 0x04;
-  88   1          TMR2RLL   = 0x59;
-  89   1          TMR2RLH   = 0x9C;
-  90   1          TMR2L     = 0x59;
-  91   1          TMR2H     = 0x9C;
-  92   1      }
-  93          
-  94          void Port_IO_Init()
-  95          {
-  96   1          // P0.0  -  Unassigned,  Open-Drain, Digital
-  97   1          // P0.1  -  Unassigned,  Push-Pull,  Digital
-  98   1          // P0.2  -  Unassigned,  Open-Drain, Digital
-  99   1          // P0.3  -  Unassigned,  Open-Drain, Digital
- 100   1          // P0.4  -  Unassigned,  Open-Drain, Digital
- 101   1          // P0.5  -  Unassigned,  Open-Drain, Digital
- 102   1          // P0.6  -  Unassigned,  Open-Drain, Digital
- 103   1          // P0.7  -  Unassigned,  Open-Drain, Digital
- 104   1      
- 105   1          // P1.0  -  Unassigned,  Open-Drain, Digital
- 106   1          // P1.1  -  Unassigned,  Open-Drain, Digital
- 107   1          // P1.2  -  Unassigned,  Open-Drain, Digital
- 108   1          // P1.3  -  Unassigned,  Open-Drain, Digital
- 109   1          // P1.4  -  Unassigned,  Open-Drain, Digital
- 110   1          // P1.5  -  Unassigned,  Open-Drain, Digital
- 111   1          // P1.6  -  Unassigned,  Open-Drain, Digital
- 112   1          // P1.7  -  Unassigned,  Open-Drain, Digital
- 113   1          // P2.0  -  Unassigned,  Open-Drain, Digital
- 114   1          // P2.1  -  Unassigned,  Open-Drain, Digital
-C51 COMPILER V9.60.0.0   POKUSY_MACURA19_03_26                                             04/09/2026 11:55:55 PAGE 3   
+  52          
+  53          //-----------------------------------------------------------------------------
+  54          void main (void)
+  55          {
+  56   1      
+  57   1      timeControl = 0;
+  58   1      zpozdeni = 50000;
+  59   1      
+  60   1      sec = 0;
+  61   1      min1 = 0;
+  62   1      min2 = 0;
+  63   1      hod1 = 0;
+  64   1      hod2 = 0;
+  65   1      
+  66   1        Init_Device();
+  67   1        led = 0;
+  68   1      
+  69   1        SDI = 0;
+  70   1        SFT_CLK = 0;
+  71   1        LCH_CLK = 0;
+  72   1      
+  73   1        while(1){
+  74   2      
+  75   2            cislo = kodovani[2];
+  76   2            Shift_Register();
+  77   2      
+  78   2            cislo = 1;
+  79   2            Shift_Register();
+  80   2      
+  81   2            LATCH_CLOCK();
+  82   2        }
+  83   1      }
+  84          //-----------------------------------------------------------------------------
+  85          // SiLabs_Startup() Routine
+  86          // ----------------------------------------------------------------------------
+  87          // This function is called immediately after reset, before the initialization
+  88          // code is run in SILABS_STARTUP.A51 (which runs before main() ). This is a
+  89          // useful place to disable the watchdog timer, which is enable by default
+  90          // and may trigger before main() in some instances.
+  91          //-----------------------------------------------------------------------------
+  92          void SiLabs_Startup (void)
+  93          {
+  94   1         PCA0MD &= ~0x40;                    // WDTE = 0 (clear watchdog timer
+  95   1      }
+  96          
+  97          //-----------------------------------------------------------------------------
+  98          void Timer2(void)/*interrupt 5*/{
+  99   1      
+ 100   1        if(timeControl >= 10){
+ 101   2            timeControl = 0;
+ 102   2            sec++;
+ 103   2            led = ~led;
+ 104   2      
+ 105   2            if(sec == 60){
+ 106   3                sec = 0;
+ 107   3                min1++;
+ 108   3      
+ 109   3                if(min1 == 10){
+ 110   4                    min2++;
+ 111   4                    min1 = 0;
+ 112   4      
+ 113   4                    if(min2 == 6){
+ 114   5                        min2 = 0;
+C51 COMPILER V9.60.0.0   POKUSY_MACURA19_03_26                                             04/30/2026 11:55:56 PAGE 3   
 
- 115   1          // P2.2  -  Unassigned,  Open-Drain, Digital
- 116   1          // P2.3  -  Unassigned,  Open-Drain, Digital
- 117   1      
- 118   1          P0MDOUT   = 0x02;
- 119   1          XBR1      = 0x40;
- 120   1      }
- 121          
- 122          void Interrupts_Init()
- 123          {
- 124   1          IE        = 0xA0;
- 125   1      }
- 126          
- 127          // Initialization function for device,
- 128          // Call Init_Device() from your main program
- 129          void Init_Device(void)
- 130          {
- 131   1          Timer_Init();
- 132   1          Port_IO_Init();
- 133   1          Interrupts_Init();
- 134   1      }
- 135          
- 136          
- 137          //-----------------------------------------------------------------------------
- 138          // End Of File
- 139          //-----------------------------------------------------------------------------
+ 115   5                        hod1++;
+ 116   5      
+ 117   5                        if(hod2 == 1 && hod1 == 2){
+ 118   6                            hod2 = 0;
+ 119   6                            hod1 = 0;
+ 120   6      
+ 121   6                        }else if(hod1 == 10){
+ 122   6                            hod2 = 1;
+ 123   6                            hod1 = 0;
+ 124   6                        }
+ 125   5                    }
+ 126   4                }
+ 127   3            }
+ 128   2        }
+ 129   1      
+ 130   1        TF2H = 0;
+ 131   1        timeControl++;
+ 132   1      
+ 133   1      }
+ 134          void Shift_Register(void){
+ 135   1        int pocet_bitu;
+ 136   1        for(pocet_bitu = 0; pocet_bitu < 8; pocet_bitu++){
+ 137   2            TMPcislo = cislo & mask;
+ 138   2      
+ 139   2            SDI = TMPcislo == 0 ? 0 : 1;
+ 140   2      
+ 141   2            SHIFT_CLOCK();
+ 142   2            cislo = cislo << 1;
+ 143   2        }
+ 144   1      }
+ 145          
+ 146          void SHIFT_CLOCK(void){
+ 147   1      
+ 148   1        SFT_CLK = 1;
+ 149   1        delay();
+ 150   1        SFT_CLK = 0;
+ 151   1        delay();
+ 152   1      }
+ 153          void LATCH_CLOCK(void){
+ 154   1      
+ 155   1        LCH_CLK = 1;
+ 156   1        delay();
+ 157   1        LCH_CLK = 0;
+ 158   1        delay();
+ 159   1      }
+ 160          
+ 161          void delay(void){
+ 162   1        int pocetCyklu = 0;
+ 163   1        while(pocetCyklu < zpozdeni) pocetCyklu++;
+ 164   1      }
+ 165          //******************************************************************************
+ 166          //inicializace mcu
+ 167          //******************************************************************************
+ 168          
+ 169          // Initialization function for device,
+ 170          // Call Init_Device() from your main program
+ 171          
+ 172          //=======================================
+ 173          //pridano 9.4.26 slouzi k timeru
+ 174          //=======================================
+ 175          void Timer_Init()
+ 176          {
+ 177   1          TMR2CN    = 0x04;
+C51 COMPILER V9.60.0.0   POKUSY_MACURA19_03_26                                             04/30/2026 11:55:56 PAGE 4   
+
+ 178   1          TMR2RLL   = 0x59;
+ 179   1          TMR2RLH   = 0x9C;
+ 180   1          TMR2L     = 0x59;
+ 181   1          TMR2H     = 0x9C;
+ 182   1      }
+ 183          
+ 184          void Port_IO_Init()
+ 185          {
+ 186   1          // P0.0  -  Unassigned,  Open-Drain, Digital
+ 187   1          // P0.1  -  Unassigned,  Push-Pull,  Digital
+ 188   1          // P0.2  -  Unassigned,  Open-Drain, Digital
+ 189   1          // P0.3  -  Unassigned,  Open-Drain, Digital
+ 190   1          // P0.4  -  Unassigned,  Open-Drain, Digital
+ 191   1          // P0.5  -  Unassigned,  Open-Drain, Digital
+ 192   1          // P0.6  -  Unassigned,  Open-Drain, Digital
+ 193   1          // P0.7  -  Unassigned,  Open-Drain, Digital
+ 194   1      
+ 195   1          // P1.0  -  Unassigned,  Open-Drain, Digital
+ 196   1          // P1.1  -  Unassigned,  Open-Drain, Digital
+ 197   1          // P1.2  -  Unassigned,  Open-Drain, Digital
+ 198   1          // P1.3  -  Unassigned,  Open-Drain, Digital
+ 199   1          // P1.4  -  Unassigned,  Open-Drain, Digital
+ 200   1          // P1.5  -  Unassigned,  Open-Drain, Digital
+ 201   1          // P1.6  -  Unassigned,  Open-Drain, Digital
+ 202   1          // P1.7  -  Unassigned,  Open-Drain, Digital
+ 203   1          // P2.0  -  Unassigned,  Open-Drain, Digital
+ 204   1          // P2.1  -  Unassigned,  Open-Drain, Digital
+ 205   1          // P2.2  -  Unassigned,  Open-Drain, Digital
+ 206   1          // P2.3  -  Unassigned,  Open-Drain, Digital
+ 207   1      
+ 208   1          //P0MDOUT   = 0x02;
+ 209   1          //XBR1      = 0x40;
+ 210   1          P0MDOUT = 0x1E;
+ 211   1          XBR1 = 0x40;
+ 212   1      }
+ 213          
+ 214          void Interrupts_Init()
+ 215          {
+ 216   1          IE        = 0xA0;
+ 217   1      }
+ 218          
+ 219          // Initialization function for device,
+ 220          // Call Init_Device() from your main program
+ 221          void Init_Device(void)
+ 222          {
+ 223   1          Timer_Init();
+ 224   1          Port_IO_Init();
+ 225   1          Interrupts_Init();
+ 226   1      }
+ 227          
+ 228          
+ 229          //-----------------------------------------------------------------------------
+ 230          // End Of File
+ 231          //-----------------------------------------------------------------------------
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    130    ----
+   CODE SIZE        =    284    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =      2       2
+   DATA SIZE        =     23       2
    IDATA SIZE       =   ----    ----
+C51 COMPILER V9.60.0.0   POKUSY_MACURA19_03_26                                             04/30/2026 11:55:56 PAGE 5   
+
    BIT SIZE         =   ----    ----
    EDATA SIZE       =   ----    ----
    HDATA SIZE       =   ----    ----
