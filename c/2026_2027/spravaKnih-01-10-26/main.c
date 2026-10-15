@@ -6,8 +6,8 @@
 #include <direct.h>
 
 //absolutni cesta z slozce s knihovna.dat protoze mi nefungovala relativni
-// char *path = "C:\\Users\\l.macura.st\\Documents\\GitHub\\ZPRG\\c\\2026_2027\\spravaKnih-01-10-26\\data";
-char *path = "C:\\Users\\lukma\\OneDrive\\Documents\\GitHub\\ZPRG\\c\\2026_2027\\spravaKnih-01-10-26\\data";
+char *path = "C:\\Users\\l.macura.st\\Documents\\GitHub\\ZPRG\\c\\2026_2027\\spravaKnih-01-10-26\\data";
+// char *path = "C:\\Users\\lukma\\OneDrive\\Documents\\GitHub\\ZPRG\\c\\2026_2027\\spravaKnih-01-10-26\\data";
 
 void moveCursor(int col, int row) {
     printf("\033[%d;%dH", row, col);
