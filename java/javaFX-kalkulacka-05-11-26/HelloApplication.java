@@ -15,8 +15,10 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Random;
 
 public class HelloApplication extends Application {
+
     @Override
     public void start(Stage stage) throws IOException {
 
@@ -95,6 +97,23 @@ public class HelloApplication extends Application {
                 }
             });
         }
+        //pozadi
+        VBox zmenaCont =  new VBox();
+        Button zmenaBgBtt = new Button("zmena pozadi");
+
+        zmenaBgBtt.addEventHandler(MouseEvent.MOUSE_CLICKED,e -> {
+
+            String styleText = "-fx-background-color: rgb(";
+            for(int i = 0; i < 3; i++) {
+                styleText += (int)(Math.random()*256);
+                if(i != 2)  styleText += ",";
+            }
+            styleText += ")";
+            System.out.println(styleText);
+            root.setStyle(styleText);
+        });
+
+        zmenaCont.getChildren().add(zmenaBgBtt);
 
         result.setAlignment(Pos.BASELINE_CENTER);
         result.setStyle("-fx-text-fill: #000000;");
@@ -107,6 +126,7 @@ public class HelloApplication extends Application {
         root.getChildren().add(textBox);
         root.getChildren().add(result);
         root.getChildren().add(operace);
+        root.getChildren().add(zmenaCont);
 
         root.setStyle("-fx-background-color: #da12d5;");
         //scena
