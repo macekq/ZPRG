@@ -6,8 +6,7 @@
 #define DHTPIN  A0         // datovy pin DHT11 (analogovy pin pouzity jako digitalni)
 #define DHTTYPE DHT11
 
-// hardwarove I2C (SDA = A4, SCL = A5 na Uno/Nano) - mnohem rychlejsi nez SW_I2C
-U8G2_SSD1306_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+U8G2_SSD1306_128X64_NONAME_1_SW_I2C u8g2(U8G2_R0, /* clock=*/ SCL, /* data=*/ SDA, /* reset=*/ U8X8_PIN_NONE);   // All Boards without Reset of the Display
 DHT dht(DHTPIN, DHTTYPE);
 
 // ================== 4mistny 7segmentovy displej ==================
@@ -167,7 +166,6 @@ void setup(void) {
 
   dht.begin();
   u8g2.begin();
-  u8g2.setBusClock(400000);   // rychle I2C (400 kHz)
   vykresli();
 }
 
