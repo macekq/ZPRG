@@ -1,68 +1,34 @@
-#include <LiquidCrystal.h>
+#include <SevSeg.h>   // Library Manager: "SevSeg" by Dean Reading
 
-const int trigPin = 9;
-const int echoPin = 10;
+SevSeg sevseg;
 
-const int bzucak = A0;
-const int led = A5;
+const uint8_t NUM_DIGITS = 4;
+const uint8_t digitPins[NUM_DIGITS] = {13, 12, 11, 10};          // d1..d4, left to right
+const uint8_t segmentPins[8]        = {2, 3, 4, 5, 6, 7, 8, 9};  // a, b, c, d, e, f, g, dp
 
-float duration, distance;
+char displayText[NUM_DIGITS + 1] = "    ";
 
-const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
-LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
-
+// digit: 1..4 (left to right), number: 0..9
+void showDigit(uint8_t digit, uint8_t number) {
+  displayText[digit - 1] = '0' + number;
+  sevseg.setChars(displayText);
+}
 void setup() {
-  Serial.begin(9600);
+  sevseg.begin(COMMON_CATHODE, NUM_DIGITS, digitPins, segmentPins, true);  // true = resistors on segments
+  sevseg.setBrightness(90);
 
-  pinMode(trigPin, OUTPUT);
-  pinMode(echoPin, INPUT);
-
-
-  lcd.begin(16, 2);
-  lcd.setCursor(1,0);
-  lcd.print("vzdalenost je:");
+  showDigit(1, 1);
+  showDigit(2, 2);
+  showDigit(3, 3);
+  showDigit(4, 4);
 }
 
-float timer = 0;
+double timer = 0;
+int numer = 1;
 void loop() {
-  digitalWrite(trigPin, LOW);
-  delayMicroseconds(2);
-  digitalWrite(trigPin, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(trigPin, LOW);
+  sevseg.refreshDisplay();   // keep calling this, no delay() in loop
 
-  duration = pulseIn(echoPin, HIGH);
+  if(millis() > timer+1000){
 
-  if(millis() > timer + 250){
-
-    timer = millis();
-
-    distance = (duration*0.0343)/2;
-    float metry = distance/100;
-
-    if(metry < 0.2){
-      analogWrite(bzucak, 255);
-      analogWrite(led, 255);
-    }
-    else if(metry < 0.65){
-      int vzdalenost = distance;
-      int val = map(vzdalenost, 65, 20, 0, 255);
-      Serial.print("val -> ");
-      Serial.println(val);
-      
-      analogWrite(led, val);
-      analogWrite(bzucak, val);
-    }
-    else{
-      analogWrite(led, 0);
-      analogWrite(bzucak, 0);
-    } 
-  
-    Serial.println(metry);
-
-    lcd.setCursor(5, 1);
-    lcd.print(metry);
-    lcd.print("m");
-    
-  }            
+  }
 }
